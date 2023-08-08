@@ -1,7 +1,11 @@
-# my
-out/
+# macOS
 .DS_Store
+
+# dir
+out/
 migrations/
+
+# env
 .env.prod
 
 # ---------------------------------------------
