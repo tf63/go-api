@@ -1,0 +1,68 @@
+openapi: "3.0.0"
+
+info:
+  title: "Expense Tracker API"
+  version: 1.0.0
+
+servers:
+  - url: "http://localhost:3000"
+    description: development
+  - url: "http://demo.com"
+    description: production
+
+tags:
+  - name: "user"
+  - name: "expense"
+
+paths:
+  /expenses:
+    post:
+      summary: Create an expense entry
+      tags: ["expense"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                price:
+                  type: number
+                user_id:
+                  type: number
+
+                # date:
+                #   type: string
+                #   format: date
+                # description:
+                #   type: string
+                # amount:
+                #   type: number
+      responses:
+        "201":
+          description: Expense entry created successfully
+  /expenses/{id}:
+    get:
+      summary: Get an expense entry by ID
+      tags: ["expense"]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: The requested expense entry
+    delete:
+      summary: Delete an expense entry by ID
+      tags: ["expense"]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Expense entry deleted successfully
