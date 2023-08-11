@@ -13,7 +13,6 @@ package external
 // 	"os"
 // 	"strconv"
 
-// 	// "github.com/catechlounge/tf63_server/model/entity"
 // 	"gorm.io/driver/postgres"
 // 	"gorm.io/gorm"
 // )

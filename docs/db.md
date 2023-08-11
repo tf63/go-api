@@ -6,8 +6,6 @@ title: DB (ver1)
 ---
 erDiagram
     users ||--o{ expenses: ""
-    expenses ||--o{ tags_map: ""
-    expense_tags ||--|| tags_map: ""
     users {
         bigint id PK
         string name "ユーザー名"
@@ -23,7 +21,6 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-
 ```
 
 

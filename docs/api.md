@@ -20,7 +20,9 @@ https://github.com/deepmap/oapi-codegen/tree/master/examples/petstore-expanded
     go get github.com/deepmap/oapi-codegen/cmd/oapi-codegen@latest
     go get github.com/deepmap/oapi-codegen/pkg/runtime@latest
     go get github.com/deepmap/oapi-codegen/pkg/types@latest
-    # 
+    # net/httpでもコード生成にchiが必要?
+    # https://github.com/go-chi/chi
+    go get -u github.com/go-chi/chi/v5
 ```
 
 **コードの作成**

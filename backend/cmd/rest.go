@@ -12,9 +12,6 @@
 package main
 
 // import (
-// 	// "github.com/catechlounge/tf63_server/api/rest"
-// 	// "github.com/catechlounge/tf63_server/external"
-// 	// "github.com/catechlounge/tf63_server/model/repository"
 // 	"github.com/gin-contrib/cors"
 // 	"github.com/gin-gonic/gin"
 // 	"github.com/tf63/go_api/external"

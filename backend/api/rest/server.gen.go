@@ -13,36 +13,99 @@ import (
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
+	// Get expense entries
+	// (GET /v1/expenses)
+	GetV1Expenses(w http.ResponseWriter, r *http.Request)
 	// Create an expense entry
-	// (POST /expenses)
-	PostExpenses(w http.ResponseWriter, r *http.Request)
+	// (POST /v1/expenses)
+	PostV1Expenses(w http.ResponseWriter, r *http.Request)
 	// Delete an expense entry by ID
-	// (DELETE /expenses/{id})
-	DeleteExpensesId(w http.ResponseWriter, r *http.Request, id int)
+	// (DELETE /v1/expenses/{expense_id})
+	DeleteV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId ExpenseId)
 	// Get an expense entry by ID
-	// (GET /expenses/{id})
-	GetExpensesId(w http.ResponseWriter, r *http.Request, id int)
+	// (GET /v1/expenses/{expense_id})
+	GetV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId ExpenseId)
+	// Update an expense entry by ID
+	// (PUT /v1/expenses/{expense_id})
+	PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId ExpenseId)
+	// Get user entries
+	// (GET /v1/users/)
+	GetV1Users(w http.ResponseWriter, r *http.Request)
+	// Create an user entry
+	// (POST /v1/users/)
+	PostV1Users(w http.ResponseWriter, r *http.Request)
+	// Delete an expense entry by ID
+	// (DELETE /v1/users/{user_id})
+	DeleteV1UsersUserId(w http.ResponseWriter, r *http.Request, userId UserId)
+	// Get an user entry by ID
+	// (GET /v1/users/{user_id})
+	GetV1UsersUserId(w http.ResponseWriter, r *http.Request, userId UserId)
+	// Update an expense entry by ID
+	// (PUT /v1/users/{user_id})
+	PutV1UsersUserId(w http.ResponseWriter, r *http.Request, userId UserId)
 }
 
 // Unimplemented server implementation that returns http.StatusNotImplemented for each endpoint.
 
 type Unimplemented struct{}
 
+// Get expense entries
+// (GET /v1/expenses)
+func (_ Unimplemented) GetV1Expenses(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
 // Create an expense entry
-// (POST /expenses)
-func (_ Unimplemented) PostExpenses(w http.ResponseWriter, r *http.Request) {
+// (POST /v1/expenses)
+func (_ Unimplemented) PostV1Expenses(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Delete an expense entry by ID
-// (DELETE /expenses/{id})
-func (_ Unimplemented) DeleteExpensesId(w http.ResponseWriter, r *http.Request, id int) {
+// (DELETE /v1/expenses/{expense_id})
+func (_ Unimplemented) DeleteV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId ExpenseId) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Get an expense entry by ID
-// (GET /expenses/{id})
-func (_ Unimplemented) GetExpensesId(w http.ResponseWriter, r *http.Request, id int) {
+// (GET /v1/expenses/{expense_id})
+func (_ Unimplemented) GetV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId ExpenseId) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// Update an expense entry by ID
+// (PUT /v1/expenses/{expense_id})
+func (_ Unimplemented) PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId ExpenseId) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// Get user entries
+// (GET /v1/users/)
+func (_ Unimplemented) GetV1Users(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// Create an user entry
+// (POST /v1/users/)
+func (_ Unimplemented) PostV1Users(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// Delete an expense entry by ID
+// (DELETE /v1/users/{user_id})
+func (_ Unimplemented) DeleteV1UsersUserId(w http.ResponseWriter, r *http.Request, userId UserId) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// Get an user entry by ID
+// (GET /v1/users/{user_id})
+func (_ Unimplemented) GetV1UsersUserId(w http.ResponseWriter, r *http.Request, userId UserId) {
+	w.WriteHeader(http.StatusNotImplemented)
+}
+
+// Update an expense entry by ID
+// (PUT /v1/users/{user_id})
+func (_ Unimplemented) PutV1UsersUserId(w http.ResponseWriter, r *http.Request, userId UserId) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -55,12 +118,12 @@ type ServerInterfaceWrapper struct {
 
 type MiddlewareFunc func(http.Handler) http.Handler
 
-// PostExpenses operation middleware
-func (siw *ServerInterfaceWrapper) PostExpenses(w http.ResponseWriter, r *http.Request) {
+// GetV1Expenses operation middleware
+func (siw *ServerInterfaceWrapper) GetV1Expenses(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.PostExpenses(w, r)
+		siw.Handler.GetV1Expenses(w, r)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -70,23 +133,12 @@ func (siw *ServerInterfaceWrapper) PostExpenses(w http.ResponseWriter, r *http.R
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// DeleteExpensesId operation middleware
-func (siw *ServerInterfaceWrapper) DeleteExpensesId(w http.ResponseWriter, r *http.Request) {
+// PostV1Expenses operation middleware
+func (siw *ServerInterfaceWrapper) PostV1Expenses(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
-	var err error
-
-	// ------------- Path parameter "id" -------------
-	var id int
-
-	err = runtime.BindStyledParameterWithLocation("simple", false, "id", runtime.ParamLocationPath, chi.URLParam(r, "id"), &id)
-	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
-		return
-	}
-
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteExpensesId(w, r, id)
+		siw.Handler.PostV1Expenses(w, r)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -96,23 +148,183 @@ func (siw *ServerInterfaceWrapper) DeleteExpensesId(w http.ResponseWriter, r *ht
 	handler.ServeHTTP(w, r.WithContext(ctx))
 }
 
-// GetExpensesId operation middleware
-func (siw *ServerInterfaceWrapper) GetExpensesId(w http.ResponseWriter, r *http.Request) {
+// DeleteV1ExpensesExpenseId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	var err error
 
-	// ------------- Path parameter "id" -------------
-	var id int
+	// ------------- Path parameter "expense_id" -------------
+	var expenseId ExpenseId
 
-	err = runtime.BindStyledParameterWithLocation("simple", false, "id", runtime.ParamLocationPath, chi.URLParam(r, "id"), &id)
+	err = runtime.BindStyledParameterWithLocation("simple", false, "expense_id", runtime.ParamLocationPath, chi.URLParam(r, "expense_id"), &expenseId)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "id", Err: err})
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "expense_id", Err: err})
 		return
 	}
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetExpensesId(w, r, id)
+		siw.Handler.DeleteV1ExpensesExpenseId(w, r, expenseId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// GetV1ExpensesExpenseId operation middleware
+func (siw *ServerInterfaceWrapper) GetV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "expense_id" -------------
+	var expenseId ExpenseId
+
+	err = runtime.BindStyledParameterWithLocation("simple", false, "expense_id", runtime.ParamLocationPath, chi.URLParam(r, "expense_id"), &expenseId)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "expense_id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetV1ExpensesExpenseId(w, r, expenseId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// PutV1ExpensesExpenseId operation middleware
+func (siw *ServerInterfaceWrapper) PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "expense_id" -------------
+	var expenseId ExpenseId
+
+	err = runtime.BindStyledParameterWithLocation("simple", false, "expense_id", runtime.ParamLocationPath, chi.URLParam(r, "expense_id"), &expenseId)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "expense_id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PutV1ExpensesExpenseId(w, r, expenseId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// GetV1Users operation middleware
+func (siw *ServerInterfaceWrapper) GetV1Users(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetV1Users(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// PostV1Users operation middleware
+func (siw *ServerInterfaceWrapper) PostV1Users(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PostV1Users(w, r)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// DeleteV1UsersUserId operation middleware
+func (siw *ServerInterfaceWrapper) DeleteV1UsersUserId(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "user_id" -------------
+	var userId UserId
+
+	err = runtime.BindStyledParameterWithLocation("simple", false, "user_id", runtime.ParamLocationPath, chi.URLParam(r, "user_id"), &userId)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "user_id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.DeleteV1UsersUserId(w, r, userId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// GetV1UsersUserId operation middleware
+func (siw *ServerInterfaceWrapper) GetV1UsersUserId(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "user_id" -------------
+	var userId UserId
+
+	err = runtime.BindStyledParameterWithLocation("simple", false, "user_id", runtime.ParamLocationPath, chi.URLParam(r, "user_id"), &userId)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "user_id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.GetV1UsersUserId(w, r, userId)
+	}))
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		handler = middleware(handler)
+	}
+
+	handler.ServeHTTP(w, r.WithContext(ctx))
+}
+
+// PutV1UsersUserId operation middleware
+func (siw *ServerInterfaceWrapper) PutV1UsersUserId(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	var err error
+
+	// ------------- Path parameter "user_id" -------------
+	var userId UserId
+
+	err = runtime.BindStyledParameterWithLocation("simple", false, "user_id", runtime.ParamLocationPath, chi.URLParam(r, "user_id"), &userId)
+	if err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "user_id", Err: err})
+		return
+	}
+
+	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		siw.Handler.PutV1UsersUserId(w, r, userId)
 	}))
 
 	for _, middleware := range siw.HandlerMiddlewares {
@@ -236,13 +448,34 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 	}
 
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/expenses", wrapper.PostExpenses)
+		r.Get(options.BaseURL+"/v1/expenses", wrapper.GetV1Expenses)
 	})
 	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/expenses/{id}", wrapper.DeleteExpensesId)
+		r.Post(options.BaseURL+"/v1/expenses", wrapper.PostV1Expenses)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/expenses/{id}", wrapper.GetExpensesId)
+		r.Delete(options.BaseURL+"/v1/expenses/{expense_id}", wrapper.DeleteV1ExpensesExpenseId)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/v1/expenses/{expense_id}", wrapper.GetV1ExpensesExpenseId)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/v1/expenses/{expense_id}", wrapper.PutV1ExpensesExpenseId)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/v1/users/", wrapper.GetV1Users)
+	})
+	r.Group(func(r chi.Router) {
+		r.Post(options.BaseURL+"/v1/users/", wrapper.PostV1Users)
+	})
+	r.Group(func(r chi.Router) {
+		r.Delete(options.BaseURL+"/v1/users/{user_id}", wrapper.DeleteV1UsersUserId)
+	})
+	r.Group(func(r chi.Router) {
+		r.Get(options.BaseURL+"/v1/users/{user_id}", wrapper.GetV1UsersUserId)
+	})
+	r.Group(func(r chi.Router) {
+		r.Put(options.BaseURL+"/v1/users/{user_id}", wrapper.PutV1UsersUserId)
 	})
 
 	return r

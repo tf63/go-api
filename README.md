@@ -1,5 +1,6 @@
 ## GOでREST, gRPC, GraphQLのAPIを設計する
 
+- ORM使うかどうか
 
 **技術選定**
 | 技術 | 役割 |
