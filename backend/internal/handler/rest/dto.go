@@ -9,13 +9,13 @@ func ExpenseDTO(e *entity.Expense) rest.Expense {
 	id := int(e.ID)
 	price := int(e.Price)
 	title := e.Title
-	user_id := int(e.UserID)
+	userId := int(e.UserID)
 
 	return rest.Expense{
 		Id:     &id,
 		Price:  &price,
 		Title:  &title,
-		UserId: &user_id,
+		UserId: &userId,
 	}
 }
 

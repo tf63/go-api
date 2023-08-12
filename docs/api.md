@@ -47,3 +47,37 @@ go installもしないとだめ
 ```
     oapi-codegen api/rest/openapi.yaml > api/rest/openapi.gen.go
 ```
+
+**パスパラメータ**
+
+こう宣言すると
+```
+    ExpenseId:
+      name: expense_id
+      in: path
+      required: true
+      schema: { type:integer, format: int64, example: 1 }
+```
+
+こうなる (ExpenseIdというインターフェースが作られてしまう)
+```
+    (w http.ResponseWriter, r *http.Request, expenseId ExpenseId)
+```
+
+こう宣言すると
+```
+    - name: expense_id
+        in: path
+        required: true
+        schema:
+        type: integer
+        format: int64
+        example: 1
+```
+
+こうなってくれる
+```
+    (w http.ResponseWriter, r *http.Request, expenseId int64)
+```
+
+パスパラメータをComponent化しても同じようにインターフェースが作られてしまう

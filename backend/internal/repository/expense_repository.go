@@ -19,11 +19,11 @@ import (
 )
 
 type ExpenseRepository interface {
-	CreateExpense(input rest.NewExpense) (expense_id int, err error)
-	ReadExpense(input rest.FindUser, expense_id int) (expense entity.Expense, err error)
+	CreateExpense(input rest.NewExpense) (expenseId int, err error)
+	ReadExpense(input rest.FindUser, expenseId int) (expense entity.Expense, err error)
 	ReadExpenses(input rest.FindUser) (expenses []entity.Expense, err error)
-	UpdateExpense(input rest.NewExpense, expense_id int) (err error)
-	DeleteExpense(input rest.FindUser, expense_id int) (err error)
+	UpdateExpense(input rest.NewExpense, expenseId int) (err error)
+	DeleteExpense(input rest.FindUser, expenseId int) (err error)
 }
 
 type expenseRepository struct {
@@ -34,9 +34,9 @@ func NewExpenseRepository(db gorm.DB) ExpenseRepository {
 	return &expenseRepository{db}
 }
 
-func GetGroupId(expense_id int) string {
-	div_size := external.GetDivSize()
-	return strconv.Itoa((expense_id % div_size) + 1)
+func GetGroupId(expenseId int) string {
+	divSize := external.GetDivSize()
+	return strconv.Itoa((expenseId % divSize) + 1)
 }
 
 /*
@@ -44,13 +44,13 @@ Create: Expenseを作成する
   - input:
   - Price  *int    `json:"price,omitempty"`
   - Title  *string `json:"title,omitempty"`
-  - ExpenseId *int    `json:"expense_id,omitempty"`
+  - ExpenseId *int    `json:"expenseId,omitempty"`
   - return:
   - None
   - Error:
   - STATUS_SERVICE_UNAVAILABLE (503)
 */
-func (er *expenseRepository) CreateExpense(input rest.NewExpense) (expense_id int, err error) {
+func (er *expenseRepository) CreateExpense(input rest.NewExpense) (expenseId int, err error) {
 
 	// inputを取得
 	if input.Title == nil || input.Price == nil || input.UserId == nil {
@@ -60,20 +60,20 @@ func (er *expenseRepository) CreateExpense(input rest.NewExpense) (expense_id in
 
 	title := *input.Title
 	price := *input.Price
-	user_id := *input.UserId
+	userId := *input.UserId
 
-	// user_idでレコードを絞る
-	user_group := GetGroupId(user_id)
+	// userIdでレコードを絞る
+	userGroup := GetGroupId(userId)
 
 	query := `
-	INSERT INTO expenses_` + user_group + ` (title, price, expense_id, created_at, updated_at)
+	INSERT INTO expenses_` + userGroup + ` (title, price, user_id, created_at, updated_at)
 	VALUES (?, ?, ?, ?, ?)
 	`
 
 	args := []interface{}{
 		title,
 		price,
-		uint(user_id),
+		uint(userId),
 		time.Now(),
 		time.Now(),
 	}
@@ -85,7 +85,7 @@ func (er *expenseRepository) CreateExpense(input rest.NewExpense) (expense_id in
 		return
 	}
 
-	result = er.db.Raw(`SELECT id FROM expenses_` + user_group + ` ORDER BY id DESC LIMIT 1`).Scan(&expense_id)
+	result = er.db.Raw(`SELECT id FROM expenses_` + userGroup + ` ORDER BY id DESC LIMIT 1`).Scan(&expenseId)
 	if result.Error != nil {
 		err = entity.STATUS_SERVICE_UNAVAILABLE
 		return
@@ -94,23 +94,23 @@ func (er *expenseRepository) CreateExpense(input rest.NewExpense) (expense_id in
 	return
 }
 
-func (er *expenseRepository) ReadExpense(input rest.FindUser, expense_id int) (expense entity.Expense, err error) {
+func (er *expenseRepository) ReadExpense(input rest.FindUser, expenseId int) (expense entity.Expense, err error) {
 
 	if input.UserId == nil {
 		err = entity.STATUS_SERVICE_UNAVAILABLE
 		return
 	}
 
-	user_id := *input.UserId
+	userId := *input.UserId
 
-	// user_idでレコードを絞る
-	user_group := GetGroupId(user_id)
+	// userIdでレコードを絞る
+	userGroup := GetGroupId(userId)
 
-	// expense_idからレコードを取得
+	// expenseIdからレコードを取得
 	record := entity.Expense{}
 
-	query := `SELECT * FROM expenses_` + user_group + ` WHERE id = ? and AND user_id = ?`
-	args := []interface{}{uint(expense_id), uint(user_id)}
+	query := `SELECT * FROM expenses_` + userGroup + ` WHERE id = ? and AND user_id = ?`
+	args := []interface{}{uint(expenseId), uint(userId)}
 
 	// レコードを割り当てる
 	result := er.db.Raw(query, args...).Scan(&record)
@@ -139,14 +139,14 @@ func (er *expenseRepository) ReadExpenses(input rest.FindUser) (expenses []entit
 	// レコードをlimit件取得
 	record := []entity.Expense{}
 
-	user_id := *input.UserId
+	userId := *input.UserId
 
-	// user_idでレコードを絞る
-	user_group := GetGroupId(user_id)
+	// userIdでレコードを絞る
+	userGroup := GetGroupId(userId)
 
 	limit := 500
 
-	query := `SELECT * FROM expenses_` + user_group + ` LIMIT ?`
+	query := `SELECT * FROM expenses_` + userGroup + ` LIMIT ?`
 	args := []interface{}{uint(limit)}
 
 	// レコードを割り当てる
@@ -166,20 +166,20 @@ func (er *expenseRepository) ReadExpenses(input rest.FindUser) (expenses []entit
 	return
 }
 
-func (er *expenseRepository) UpdateExpense(input rest.NewExpense, expense_id int) (err error) {
+func (er *expenseRepository) UpdateExpense(input rest.NewExpense, expenseId int) (err error) {
 
 	if input.UserId == nil {
 		err = entity.STATUS_SERVICE_UNAVAILABLE
 		return
 	}
 
-	user_id := *input.UserId
+	userId := *input.UserId
 
-	// user_idでレコードを絞る
-	user_group := GetGroupId(user_id)
+	// userIdでレコードを絞る
+	userGroup := GetGroupId(userId)
 
 	// レコードの更新
-	query := `UPDATE expenses_` + user_group + ` SET `
+	query := `UPDATE expenses_` + userGroup + ` SET `
 	args := []interface{}{}
 
 	if input.Title != nil {
@@ -196,11 +196,11 @@ func (er *expenseRepository) UpdateExpense(input rest.NewExpense, expense_id int
 	args = append(args, time.Now())
 
 	query += "WHERE id = ? "
-	args = append(args, expense_id)
+	args = append(args, expenseId)
 
 	// 他のuserのtodoを更新できないようにする
 	query += `AND user_id = ?`
-	args = append(args, user_id)
+	args = append(args, userId)
 
 	// Updateの実行
 	result := er.db.Exec(query, args...)
@@ -218,21 +218,21 @@ func (er *expenseRepository) UpdateExpense(input rest.NewExpense, expense_id int
 	return
 }
 
-func (er *expenseRepository) DeleteExpense(input rest.FindUser, expense_id int) (err error) {
+func (er *expenseRepository) DeleteExpense(input rest.FindUser, expenseId int) (err error) {
 
 	if input.UserId == nil {
 		err = entity.STATUS_SERVICE_UNAVAILABLE
 		return
 	}
 
-	user_id := *input.UserId
+	userId := *input.UserId
 
-	// user_idでレコードを絞る
-	user_group := GetGroupId(user_id)
+	// userIdでレコードを絞る
+	userGroup := GetGroupId(userId)
 
-	// expense_idに対応するレコードを削除する
-	query := `DELETE FROM expenses_` + user_group + ` WHERE id = ? AND user_id = ?`
-	args := []interface{}{expense_id, user_id}
+	// expenseIdに対応するレコードを削除する
+	query := `DELETE FROM expenses_` + userGroup + ` WHERE id = ? AND user_id = ?`
+	args := []interface{}{expenseId, userId}
 
 	result := er.db.Exec(query, args...)
 

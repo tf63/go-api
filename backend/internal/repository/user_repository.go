@@ -17,11 +17,11 @@ UserRepository Interface
   - Mockするので抽象化
 */
 type UserRepository interface {
-	CreateUser(input rest.NewUser) (user_id int, err error)
-	ReadUser(user_id int) (user entity.User, err error)
+	CreateUser(input rest.NewUser) (userId int, err error)
+	ReadUser(userId int) (user entity.User, err error)
 	ReadUsers() (users []entity.User, err error)
-	UpdateUser(input rest.NewUser, user_id int) (err error)
-	DeleteUser(user_id int) (err error)
+	UpdateUser(input rest.NewUser, userId int) (err error)
+	DeleteUser(userId int) (err error)
 }
 
 // UserRepository 構造体
@@ -46,7 +46,7 @@ Create: Todoを作成する
   - Error:
   - STATUS_SERVICE_UNAVAILABLE (503)
 */
-func (ur *userRepository) CreateUser(input rest.NewUser) (user_id int, err error) {
+func (ur *userRepository) CreateUser(input rest.NewUser) (userId int, err error) {
 
 	// inputを取得
 	if input.Name == nil {
@@ -75,7 +75,7 @@ func (ur *userRepository) CreateUser(input rest.NewUser) (user_id int, err error
 		return
 	}
 
-	result = ur.db.Raw(`SELECT id FROM user ORDER BY id DESC LIMIT 1`).Scan(&user_id)
+	result = ur.db.Raw(`SELECT id FROM user ORDER BY id DESC LIMIT 1`).Scan(&userId)
 	if result.Error != nil {
 		err = entity.STATUS_SERVICE_UNAVAILABLE
 		return
@@ -93,13 +93,13 @@ Read: UserをuserIDで指定して1件取得する (nameからuserID等を取得
   - Error:
   - STATUS_SERVICE_UNAVAILABLE (503)
 */
-func (ur *userRepository) ReadUser(user_id int) (user entity.User, err error) {
+func (ur *userRepository) ReadUser(userId int) (user entity.User, err error) {
 
 	// userIDからレコードを取得
 	record := entity.User{}
 
 	query := "SELECT * FROM users WHERE id = ?"
-	args := []interface{}{uint(user_id)}
+	args := []interface{}{uint(userId)}
 
 	// レコードを割り当てる
 	result := ur.db.Raw(query, args...).Scan(&record)
@@ -154,17 +154,17 @@ func (ur *userRepository) ReadUsers() (users []entity.User, err error) {
 }
 
 /*
-Update: userをuser_idで指定して更新する
+Update: userをuserIdで指定して更新する
   - input:
   - Name *string `json:"name,omitempty"`
-  - user_id int
+  - userId int
   - return:
   - None
   - Error:
   - STATUS_NOT_FOUND (404)
   - STATUS_SERVICE_UNAVAILABLE (503)
 */
-func (ur *userRepository) UpdateUser(input rest.NewUser, user_id int) (err error) {
+func (ur *userRepository) UpdateUser(input rest.NewUser, userId int) (err error) {
 
 	// レコードの更新
 	query := `UPDATE user SET `
@@ -179,7 +179,7 @@ func (ur *userRepository) UpdateUser(input rest.NewUser, user_id int) (err error
 	args = append(args, time.Now())
 
 	query += "WHERE id = ?"
-	args = append(args, user_id)
+	args = append(args, userId)
 
 	// Updateの実行
 	result := ur.db.Exec(query, args...)
@@ -198,20 +198,20 @@ func (ur *userRepository) UpdateUser(input rest.NewUser, user_id int) (err error
 }
 
 /*
-Delete: userをuser_idで指定して削除する
+Delete: userをuserIdで指定して削除する
   - input:
-  - user_id int
+  - userId int
   - return:
   - None
   - Error:
   - STATUS_NOT_FOUND (404)
   - STATUS_SERVICE_UNAVAILABLE (503)
 */
-func (ur *userRepository) DeleteUser(user_id int) (err error) {
+func (ur *userRepository) DeleteUser(userId int) (err error) {
 
-	// user_idに対応するレコードを削除する
+	// userIdに対応するレコードを削除する
 	query := `DELETE FROM user WHERE id = ?`
-	args := []interface{}{user_id}
+	args := []interface{}{userId}
 
 	result := ur.db.Exec(query, args...)
 

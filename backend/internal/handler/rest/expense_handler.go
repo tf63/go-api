@@ -12,6 +12,8 @@ import (
 
 func (sh *serverHandler) PostV1Expenses(w http.ResponseWriter, r *http.Request) {
 
+	log.Printf(`[POST] ` + r.URL.Path)
+
 	var newExpense rest.NewExpense
 	err := json.NewDecoder(r.Body).Decode(&newExpense)
 
@@ -20,20 +22,20 @@ func (sh *serverHandler) PostV1Expenses(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
-	log.Printf(`newExpense -> title: ` + *newExpense.Title + `, price: ` + strconv.Itoa(*newExpense.Price) + `, user_id: ` + strconv.Itoa(*newExpense.UserId))
+	log.Printf(`[POST] newExpense -> title: ` + *newExpense.Title + `, price: ` + strconv.Itoa(*newExpense.Price) + `, user_id: ` + strconv.Itoa(*newExpense.UserId))
 
 	expense_id, err := sh.er.CreateExpense(newExpense)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
-		log.Printf(`Post 503 [Error]`)
+		log.Printf(`[POST] 503 Error`)
 		return
 	} else if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)
-		log.Printf(`Post 501 [Error]`)
+		log.Printf(`[POST] 501 Error`)
 		return
 	}
 
-	log.Printf(`Post 201 [OK]`)
+	log.Printf(`[POST] 201 OK`)
 
 	w.Header().Set("Location", r.Host+r.URL.Path+"/"+strconv.Itoa(expense_id))
 	w.WriteHeader(http.StatusCreated)
@@ -41,32 +43,133 @@ func (sh *serverHandler) PostV1Expenses(w http.ResponseWriter, r *http.Request) 
 
 func (sh *serverHandler) GetV1Expenses(w http.ResponseWriter, r *http.Request) {
 
+	log.Printf(`[GET] ` + r.URL.Path)
+
 	var findUser rest.FindUser
 	err := json.NewDecoder(r.Body).Decode(&findUser)
+
+	if err != nil {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		return
+	}
+
+	log.Printf(`[GET] findUser -> userId: ` + strconv.Itoa(*findUser.UserId))
 
 	expenses, err := sh.er.ReadExpenses(findUser)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
-		log.Printf(`Post 503 [Error]`)
+		log.Printf(`[GET] 503 Error`)
 		return
 	} else if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)
-		log.Printf(`Post 501 [Error]`)
+		log.Printf(`[GET] 501 Error`)
 		return
 	}
 
+	log.Printf(`[GET] 200 OK`)
+
+	response := rest.Expenses{}
+	for _, expense := range expenses {
+		response = append(response, ExpenseDTO(&expense))
+	}
+
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(expenses)
+	json.NewEncoder(w).Encode(response)
 }
 
-func (sh *serverHandler) DeleteV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId rest.ExpenseId) {
+func (sh *serverHandler) DeleteV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId int) {
 
+	log.Printf(`[DELETE] ` + r.URL.Path)
+
+	var findUser rest.FindUser
+	err := json.NewDecoder(r.Body).Decode(&findUser)
+
+	if err != nil {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		return
+	}
+
+	log.Printf(`[DELETE] findUser -> userId: ` + strconv.Itoa(*findUser.UserId))
+
+	err = sh.er.DeleteExpense(findUser, expenseId)
+	if err == entity.STATUS_SERVICE_UNAVAILABLE {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		log.Printf(`[DELETE] 503 Error`)
+		return
+	} else if err == entity.STATUS_NOT_FOUND {
+		w.WriteHeader(http.StatusNotFound)
+		log.Printf(`[DELETE] 404 Error`)
+		return
+	} else if err != nil {
+		w.WriteHeader(http.StatusNotImplemented)
+		log.Printf(`[DELETE] 501 Error`)
+		return
+	}
+
+	log.Printf(`[DELETE] 204 OK`)
+
+	w.WriteHeader(http.StatusNoContent)
 }
 
-func (sh *serverHandler) GetV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId rest.ExpenseId) {
+func (sh *serverHandler) GetV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId int) {
 
+	log.Printf(`[GET] ` + r.URL.Path)
+
+	var findUser rest.FindUser
+	err := json.NewDecoder(r.Body).Decode(&findUser)
+
+	if err != nil {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		return
+	}
+
+	log.Printf(`[GET] findUser -> userId: ` + strconv.Itoa(*findUser.UserId))
+
+	expense, err := sh.er.ReadExpense(findUser, expenseId)
+	if err == entity.STATUS_SERVICE_UNAVAILABLE {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		log.Printf(`[GET] 503 Error`)
+		return
+	} else if err != nil {
+		w.WriteHeader(http.StatusNotImplemented)
+		log.Printf(`[GET] 501 Error`)
+		return
+	}
+
+	log.Printf(`[GET] 200 OK`)
+
+	response := ExpenseDTO(&expense)
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(response)
 }
 
-func (sh *serverHandler) PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId rest.ExpenseId) {
+func (sh *serverHandler) PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId int) {
 
+	log.Printf(`[PUT] ` + r.URL.Path)
+
+	var newExpense rest.NewExpense
+	err := json.NewDecoder(r.Body).Decode(&newExpense)
+
+	if err != nil {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		return
+	}
+
+	log.Printf(`[PUT] newExpense -> title: ` + *newExpense.Title + `, price: ` + strconv.Itoa(*newExpense.Price) + `, user_id: ` + strconv.Itoa(*newExpense.UserId))
+
+	err = sh.er.UpdateExpense(newExpense, expenseId)
+	if err == entity.STATUS_SERVICE_UNAVAILABLE {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		log.Printf(`[PUT] 503 Error`)
+		return
+	} else if err != nil {
+		w.WriteHeader(http.StatusNotImplemented)
+		log.Printf(`[PUT] 501 Error`)
+		return
+	}
+
+	log.Printf(`[PUT] 204 OK`)
+
+	w.WriteHeader(http.StatusNoContent)
 }

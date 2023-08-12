@@ -8,7 +8,7 @@ type Expense struct {
 	Id     *int    `json:"id,omitempty"`
 	Price  *int    `json:"price,omitempty"`
 	Title  *string `json:"title,omitempty"`
-	UserId *int    `json:"user_id,omitempty"`
+	UserId *int    `json:"userId,omitempty"`
 }
 
 // Expenses defines model for Expenses.
@@ -45,12 +45,6 @@ type User struct {
 // Users defines model for Users.
 type Users = []User
 
-// ExpenseId defines model for ExpenseId.
-type ExpenseId = interface{}
-
-// UserId defines model for UserId.
-type UserId = interface{}
-
 // N404NotFound defines model for 404_NotFound.
 type N404NotFound = NotFound
 
@@ -66,7 +60,7 @@ type FindUser struct {
 type NewExpense struct {
 	Price  *int    `json:"price,omitempty"`
 	Title  *string `json:"title,omitempty"`
-	UserId *int    `json:"user_id,omitempty"`
+	UserId *int    `json:"userId,omitempty"`
 }
 
 // NewUser defines model for NewUser.
@@ -83,7 +77,7 @@ type GetV1ExpensesJSONBody struct {
 type PostV1ExpensesJSONBody struct {
 	Price  *int    `json:"price,omitempty"`
 	Title  *string `json:"title,omitempty"`
-	UserId *int    `json:"user_id,omitempty"`
+	UserId *int    `json:"userId,omitempty"`
 }
 
 // DeleteV1ExpensesExpenseIdJSONBody defines parameters for DeleteV1ExpensesExpenseId.
@@ -100,7 +94,7 @@ type GetV1ExpensesExpenseIdJSONBody struct {
 type PutV1ExpensesExpenseIdJSONBody struct {
 	Price  *int    `json:"price,omitempty"`
 	Title  *string `json:"title,omitempty"`
-	UserId *int    `json:"user_id,omitempty"`
+	UserId *int    `json:"userId,omitempty"`
 }
 
 // PostV1UsersJSONBody defines parameters for PostV1Users.

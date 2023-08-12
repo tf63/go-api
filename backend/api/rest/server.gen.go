@@ -21,28 +21,28 @@ type ServerInterface interface {
 	PostV1Expenses(w http.ResponseWriter, r *http.Request)
 	// Delete an expense entry by ID
 	// (DELETE /v1/expenses/{expense_id})
-	DeleteV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId ExpenseId)
+	DeleteV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId int)
 	// Get an expense entry by ID
 	// (GET /v1/expenses/{expense_id})
-	GetV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId ExpenseId)
+	GetV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId int)
 	// Update an expense entry by ID
 	// (PUT /v1/expenses/{expense_id})
-	PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId ExpenseId)
+	PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId int)
 	// Get user entries
 	// (GET /v1/users/)
 	GetV1Users(w http.ResponseWriter, r *http.Request)
 	// Create an user entry
 	// (POST /v1/users/)
 	PostV1Users(w http.ResponseWriter, r *http.Request)
-	// Delete an expense entry by ID
+	// Delete an user entry by ID
 	// (DELETE /v1/users/{user_id})
-	DeleteV1UsersUserId(w http.ResponseWriter, r *http.Request, userId UserId)
+	DeleteV1UsersUserId(w http.ResponseWriter, r *http.Request, userId int)
 	// Get an user entry by ID
 	// (GET /v1/users/{user_id})
-	GetV1UsersUserId(w http.ResponseWriter, r *http.Request, userId UserId)
-	// Update an expense entry by ID
+	GetV1UsersUserId(w http.ResponseWriter, r *http.Request, userId int)
+	// Update an user entry by ID
 	// (PUT /v1/users/{user_id})
-	PutV1UsersUserId(w http.ResponseWriter, r *http.Request, userId UserId)
+	PutV1UsersUserId(w http.ResponseWriter, r *http.Request, userId int)
 }
 
 // Unimplemented server implementation that returns http.StatusNotImplemented for each endpoint.
@@ -63,19 +63,19 @@ func (_ Unimplemented) PostV1Expenses(w http.ResponseWriter, r *http.Request) {
 
 // Delete an expense entry by ID
 // (DELETE /v1/expenses/{expense_id})
-func (_ Unimplemented) DeleteV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId ExpenseId) {
+func (_ Unimplemented) DeleteV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId int) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Get an expense entry by ID
 // (GET /v1/expenses/{expense_id})
-func (_ Unimplemented) GetV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId ExpenseId) {
+func (_ Unimplemented) GetV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId int) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Update an expense entry by ID
 // (PUT /v1/expenses/{expense_id})
-func (_ Unimplemented) PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId ExpenseId) {
+func (_ Unimplemented) PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId int) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -91,21 +91,21 @@ func (_ Unimplemented) PostV1Users(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Delete an expense entry by ID
+// Delete an user entry by ID
 // (DELETE /v1/users/{user_id})
-func (_ Unimplemented) DeleteV1UsersUserId(w http.ResponseWriter, r *http.Request, userId UserId) {
+func (_ Unimplemented) DeleteV1UsersUserId(w http.ResponseWriter, r *http.Request, userId int) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Get an user entry by ID
 // (GET /v1/users/{user_id})
-func (_ Unimplemented) GetV1UsersUserId(w http.ResponseWriter, r *http.Request, userId UserId) {
+func (_ Unimplemented) GetV1UsersUserId(w http.ResponseWriter, r *http.Request, userId int) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
-// Update an expense entry by ID
+// Update an user entry by ID
 // (PUT /v1/users/{user_id})
-func (_ Unimplemented) PutV1UsersUserId(w http.ResponseWriter, r *http.Request, userId UserId) {
+func (_ Unimplemented) PutV1UsersUserId(w http.ResponseWriter, r *http.Request, userId int) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -155,7 +155,7 @@ func (siw *ServerInterfaceWrapper) DeleteV1ExpensesExpenseId(w http.ResponseWrit
 	var err error
 
 	// ------------- Path parameter "expense_id" -------------
-	var expenseId ExpenseId
+	var expenseId int
 
 	err = runtime.BindStyledParameterWithLocation("simple", false, "expense_id", runtime.ParamLocationPath, chi.URLParam(r, "expense_id"), &expenseId)
 	if err != nil {
@@ -181,7 +181,7 @@ func (siw *ServerInterfaceWrapper) GetV1ExpensesExpenseId(w http.ResponseWriter,
 	var err error
 
 	// ------------- Path parameter "expense_id" -------------
-	var expenseId ExpenseId
+	var expenseId int
 
 	err = runtime.BindStyledParameterWithLocation("simple", false, "expense_id", runtime.ParamLocationPath, chi.URLParam(r, "expense_id"), &expenseId)
 	if err != nil {
@@ -207,7 +207,7 @@ func (siw *ServerInterfaceWrapper) PutV1ExpensesExpenseId(w http.ResponseWriter,
 	var err error
 
 	// ------------- Path parameter "expense_id" -------------
-	var expenseId ExpenseId
+	var expenseId int
 
 	err = runtime.BindStyledParameterWithLocation("simple", false, "expense_id", runtime.ParamLocationPath, chi.URLParam(r, "expense_id"), &expenseId)
 	if err != nil {
@@ -263,7 +263,7 @@ func (siw *ServerInterfaceWrapper) DeleteV1UsersUserId(w http.ResponseWriter, r 
 	var err error
 
 	// ------------- Path parameter "user_id" -------------
-	var userId UserId
+	var userId int
 
 	err = runtime.BindStyledParameterWithLocation("simple", false, "user_id", runtime.ParamLocationPath, chi.URLParam(r, "user_id"), &userId)
 	if err != nil {
@@ -289,7 +289,7 @@ func (siw *ServerInterfaceWrapper) GetV1UsersUserId(w http.ResponseWriter, r *ht
 	var err error
 
 	// ------------- Path parameter "user_id" -------------
-	var userId UserId
+	var userId int
 
 	err = runtime.BindStyledParameterWithLocation("simple", false, "user_id", runtime.ParamLocationPath, chi.URLParam(r, "user_id"), &userId)
 	if err != nil {
@@ -315,7 +315,7 @@ func (siw *ServerInterfaceWrapper) PutV1UsersUserId(w http.ResponseWriter, r *ht
 	var err error
 
 	// ------------- Path parameter "user_id" -------------
-	var userId UserId
+	var userId int
 
 	err = runtime.BindStyledParameterWithLocation("simple", false, "user_id", runtime.ParamLocationPath, chi.URLParam(r, "user_id"), &userId)
 	if err != nil {
