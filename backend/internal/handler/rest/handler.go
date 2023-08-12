@@ -32,16 +32,20 @@ func (sh *serverHandler) PostV1Expenses(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 
+	log.Printf(`newExpense -> title: ` + *newExpense.Title + `, price: ` + strconv.Itoa(*newExpense.Price) + `, user_id: ` + strconv.Itoa(*newExpense.UserId))
+
 	expense_id, err := sh.er.CreateExpense(newExpense)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
+		log.Printf(`Post 503 [Error]`)
 		return
 	} else if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)
+		log.Printf(`Post 501 [Error]`)
 		return
 	}
 
-	log.Printf(`title: ` + *newExpense.Title + `, price: ` + strconv.Itoa(*newExpense.Price) + `, user_id: ` + strconv.Itoa(*newExpense.UserId))
+	log.Printf(`Post 201 [OK]`)
 
 	w.Header().Set("Location", r.Host+r.URL.Path+"/"+strconv.Itoa(*expense_id))
 	w.WriteHeader(http.StatusCreated)
