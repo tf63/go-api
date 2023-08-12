@@ -29,10 +29,10 @@ type ServerInterface interface {
 	// (PUT /v1/expenses/{expense_id})
 	PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.Request, expenseId int)
 	// Get user entries
-	// (GET /v1/users/)
+	// (GET /v1/users)
 	GetV1Users(w http.ResponseWriter, r *http.Request)
 	// Create an user entry
-	// (POST /v1/users/)
+	// (POST /v1/users)
 	PostV1Users(w http.ResponseWriter, r *http.Request)
 	// Delete an user entry by ID
 	// (DELETE /v1/users/{user_id})
@@ -80,13 +80,13 @@ func (_ Unimplemented) PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.Req
 }
 
 // Get user entries
-// (GET /v1/users/)
+// (GET /v1/users)
 func (_ Unimplemented) GetV1Users(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
 // Create an user entry
-// (POST /v1/users/)
+// (POST /v1/users)
 func (_ Unimplemented) PostV1Users(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
@@ -463,10 +463,10 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 		r.Put(options.BaseURL+"/v1/expenses/{expense_id}", wrapper.PutV1ExpensesExpenseId)
 	})
 	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/v1/users/", wrapper.GetV1Users)
+		r.Get(options.BaseURL+"/v1/users", wrapper.GetV1Users)
 	})
 	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/v1/users/", wrapper.PostV1Users)
+		r.Post(options.BaseURL+"/v1/users", wrapper.PostV1Users)
 	})
 	r.Group(func(r chi.Router) {
 		r.Delete(options.BaseURL+"/v1/users/{user_id}", wrapper.DeleteV1UsersUserId)

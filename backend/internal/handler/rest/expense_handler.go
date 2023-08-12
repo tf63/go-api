@@ -130,6 +130,10 @@ func (sh *serverHandler) GetV1ExpensesExpenseId(w http.ResponseWriter, r *http.R
 		w.WriteHeader(http.StatusServiceUnavailable)
 		log.Printf(`[GET] 503 Error`)
 		return
+	} else if err == entity.STATUS_NOT_FOUND {
+		w.WriteHeader(http.StatusNotFound)
+		log.Printf(`[GET] 404 Error`)
+		return
 	} else if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)
 		log.Printf(`[GET] 501 Error`)
@@ -162,6 +166,10 @@ func (sh *serverHandler) PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.R
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		log.Printf(`[PUT] 503 Error`)
+		return
+	} else if err == entity.STATUS_NOT_FOUND {
+		w.WriteHeader(http.StatusNotFound)
+		log.Printf(`[PUT] 404 Error`)
 		return
 	} else if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)

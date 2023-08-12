@@ -109,14 +109,20 @@ func (er *expenseRepository) ReadExpense(input rest.FindUser, expenseId int) (ex
 	// expenseIdからレコードを取得
 	record := entity.Expense{}
 
-	query := `SELECT * FROM expenses_` + userGroup + ` WHERE id = ? and AND user_id = ?`
+	query := `SELECT * FROM expenses_` + userGroup + ` WHERE id = ? AND user_id = ?`
 	args := []interface{}{uint(expenseId), uint(userId)}
 
 	// レコードを割り当てる
 	result := er.db.Raw(query, args...).Scan(&record)
 
+	// レコードが存在しなかったら (汚い)
+	if record.ID == 0 {
+		err = entity.STATUS_NOT_FOUND
+		return
+	}
+
 	if result.Error == gorm.ErrRecordNotFound {
-		// gormのエラーの種類で存在するかどうかわかる
+		// gormのエラーの種類で存在するかどうかわかる -> db.Rawでは判定してくれない?
 		// 意味ないが後学のための残しておく
 		err = entity.STATUS_SERVICE_UNAVAILABLE
 		return

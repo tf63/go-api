@@ -117,7 +117,7 @@ paths:
 
   # # user
   # # ----------------------------------------------------------------
-  /v1/users/:
+  /v1/users:
     post:
       summary: Create an user entry
       tags: ["user"]

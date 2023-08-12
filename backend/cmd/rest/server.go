@@ -22,12 +22,6 @@ import (
 	"github.com/tf63/go_api/internal/repository"
 )
 
-// import (
-// 	"github.com/gin-contrib/cors"
-// 	"github.com/gin-gonic/gin"
-// 	"github.com/tf63/go_api/external"
-// )
-
 func main() {
 
 	db, _ := external.ConnectDatabase(false)

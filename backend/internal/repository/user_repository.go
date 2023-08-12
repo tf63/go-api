@@ -104,6 +104,12 @@ func (ur *userRepository) ReadUser(userId int) (user entity.User, err error) {
 	// レコードを割り当てる
 	result := ur.db.Raw(query, args...).Scan(&record)
 
+	// レコードが存在しなかったら (汚い)
+	if record.ID == 0 {
+		err = entity.STATUS_NOT_FOUND
+		return
+	}
+
 	if result.Error == gorm.ErrRecordNotFound {
 		// gormのエラーの種類でユーザーが存在するかどうかわかる
 		// 意味ないが後学のための残しておく
