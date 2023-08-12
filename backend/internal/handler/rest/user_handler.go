@@ -19,6 +19,7 @@ func (sh *serverHandler) PostV1Users(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
+		log.Printf(`[POST] 503 Error: invalid request body`)
 		return
 	}
 
@@ -27,11 +28,11 @@ func (sh *serverHandler) PostV1Users(w http.ResponseWriter, r *http.Request) {
 	user_id, err := sh.ur.CreateUser(newUser)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
-		log.Printf(`[POST] 503 Error`)
+		log.Printf(`[POST] 503 Error: database error`)
 		return
 	} else if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)
-		log.Printf(`[POST] 501 Error`)
+		log.Printf(`[POST] 501 Error: unexpected error`)
 		return
 	}
 
@@ -48,11 +49,11 @@ func (sh *serverHandler) GetV1Users(w http.ResponseWriter, r *http.Request) {
 	users, err := sh.ur.ReadUsers()
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
-		log.Printf(`[GET] 503 Error`)
+		log.Printf(`[GET] 503 Error: database error`)
 		return
 	} else if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)
-		log.Printf(`[GET] 501 Error`)
+		log.Printf(`[GET] 501 Error: unexpected error`)
 		return
 	}
 
@@ -74,15 +75,15 @@ func (sh *serverHandler) DeleteV1UsersUserId(w http.ResponseWriter, r *http.Requ
 	err := sh.ur.DeleteUser(userId)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
-		log.Printf(`[DELETE] 503 Error`)
+		log.Printf(`[DELETE] 503 Error: database error`)
 		return
 	} else if err == entity.STATUS_NOT_FOUND {
 		w.WriteHeader(http.StatusNotFound)
-		log.Printf(`[DELETE] 404 Error`)
+		log.Printf(`[DELETE] 404 Error: not found`)
 		return
 	} else if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)
-		log.Printf(`[DELETE] 501 Error`)
+		log.Printf(`[DELETE] 501 Error: unexpected error`)
 		return
 	}
 
@@ -98,15 +99,15 @@ func (sh *serverHandler) GetV1UsersUserId(w http.ResponseWriter, r *http.Request
 	user, err := sh.ur.ReadUser(userId)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
-		log.Printf(`[GET] 503 Error`)
+		log.Printf(`[GET] 503 Error: database error`)
 		return
 	} else if err == entity.STATUS_NOT_FOUND {
 		w.WriteHeader(http.StatusNotFound)
-		log.Printf(`[GET] 404 Error`)
+		log.Printf(`[GET] 404 Error: not found`)
 		return
 	} else if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)
-		log.Printf(`[GET] 501 Error`)
+		log.Printf(`[GET] 501 Error: unexpected error`)
 		return
 	}
 
@@ -127,6 +128,7 @@ func (sh *serverHandler) PutV1UsersUserId(w http.ResponseWriter, r *http.Request
 
 	if err != nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
+		log.Printf(`[PUT] 503 Error: invalid request body`)
 		return
 	}
 
@@ -135,15 +137,15 @@ func (sh *serverHandler) PutV1UsersUserId(w http.ResponseWriter, r *http.Request
 	err = sh.ur.UpdateUser(newUser, userId)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
-		log.Printf(`[PUT] 503 Error`)
+		log.Printf(`[PUT] 503 Error: database error`)
 		return
 	} else if err == entity.STATUS_NOT_FOUND {
 		w.WriteHeader(http.StatusNotFound)
-		log.Printf(`[PUT] 404 Error`)
+		log.Printf(`[PUT] 404 Error: not found`)
 		return
 	} else if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)
-		log.Printf(`[PUT] 501 Error`)
+		log.Printf(`[PUT] 501 Error: unexpected error`)
 		return
 	}
 

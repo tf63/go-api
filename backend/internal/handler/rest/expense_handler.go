@@ -19,6 +19,7 @@ func (sh *serverHandler) PostV1Expenses(w http.ResponseWriter, r *http.Request) 
 
 	if err != nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
+		log.Printf(`[POST] 503 Error: invalid request body`)
 		return
 	}
 
@@ -27,11 +28,11 @@ func (sh *serverHandler) PostV1Expenses(w http.ResponseWriter, r *http.Request) 
 	expense_id, err := sh.er.CreateExpense(newExpense)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
-		log.Printf(`[POST] 503 Error`)
+		log.Printf(`[POST] 503 Error: database error`)
 		return
 	} else if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)
-		log.Printf(`[POST] 501 Error`)
+		log.Printf(`[POST] 501 Error: unexpected error`)
 		return
 	}
 
@@ -50,6 +51,7 @@ func (sh *serverHandler) GetV1Expenses(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
+		log.Printf(`[GET] 503 Error: invalid request body`)
 		return
 	}
 
@@ -58,11 +60,11 @@ func (sh *serverHandler) GetV1Expenses(w http.ResponseWriter, r *http.Request) {
 	expenses, err := sh.er.ReadExpenses(findUser)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
-		log.Printf(`[GET] 503 Error`)
+		log.Printf(`[GET] 503 Error: database error`)
 		return
 	} else if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)
-		log.Printf(`[GET] 501 Error`)
+		log.Printf(`[GET] 501 Error: unexpected error`)
 		return
 	}
 
@@ -86,6 +88,7 @@ func (sh *serverHandler) DeleteV1ExpensesExpenseId(w http.ResponseWriter, r *htt
 
 	if err != nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
+		log.Printf(`[DELETE] 503 Error: invalid request body`)
 		return
 	}
 
@@ -94,15 +97,15 @@ func (sh *serverHandler) DeleteV1ExpensesExpenseId(w http.ResponseWriter, r *htt
 	err = sh.er.DeleteExpense(findUser, expenseId)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
-		log.Printf(`[DELETE] 503 Error`)
+		log.Printf(`[DELETE] 503 Error: database error`)
 		return
 	} else if err == entity.STATUS_NOT_FOUND {
 		w.WriteHeader(http.StatusNotFound)
-		log.Printf(`[DELETE] 404 Error`)
+		log.Printf(`[DELETE] 404 Error: not found`)
 		return
 	} else if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)
-		log.Printf(`[DELETE] 501 Error`)
+		log.Printf(`[DELETE] 501 Error: unexpected error`)
 		return
 	}
 
@@ -120,6 +123,7 @@ func (sh *serverHandler) GetV1ExpensesExpenseId(w http.ResponseWriter, r *http.R
 
 	if err != nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
+		log.Printf(`[GET] 503 Error: invalid request body`)
 		return
 	}
 
@@ -128,15 +132,15 @@ func (sh *serverHandler) GetV1ExpensesExpenseId(w http.ResponseWriter, r *http.R
 	expense, err := sh.er.ReadExpense(findUser, expenseId)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
-		log.Printf(`[GET] 503 Error`)
+		log.Printf(`[GET] 503 Error: database error`)
 		return
 	} else if err == entity.STATUS_NOT_FOUND {
 		w.WriteHeader(http.StatusNotFound)
-		log.Printf(`[GET] 404 Error`)
+		log.Printf(`[GET] 404 Error: not found`)
 		return
 	} else if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)
-		log.Printf(`[GET] 501 Error`)
+		log.Printf(`[GET] 501 Error: unexpected error`)
 		return
 	}
 
@@ -157,6 +161,7 @@ func (sh *serverHandler) PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.R
 
 	if err != nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
+		log.Printf(`[PUT] 503 Error: invalid request body`)
 		return
 	}
 
@@ -165,15 +170,15 @@ func (sh *serverHandler) PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.R
 	err = sh.er.UpdateExpense(newExpense, expenseId)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
-		log.Printf(`[PUT] 503 Error`)
+		log.Printf(`[PUT] 503 Error: database error`)
 		return
 	} else if err == entity.STATUS_NOT_FOUND {
 		w.WriteHeader(http.StatusNotFound)
-		log.Printf(`[PUT] 404 Error`)
+		log.Printf(`[PUT] 404 Error: not found`)
 		return
 	} else if err != nil {
 		w.WriteHeader(http.StatusNotImplemented)
-		log.Printf(`[PUT] 501 Error`)
+		log.Printf(`[PUT] 501 Error: unexpected error`)
 		return
 	}
 

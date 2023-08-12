@@ -75,7 +75,7 @@ func (ur *userRepository) CreateUser(input rest.NewUser) (userId int, err error)
 		return
 	}
 
-	result = ur.db.Raw(`SELECT id FROM user ORDER BY id DESC LIMIT 1`).Scan(&userId)
+	result = ur.db.Raw(`SELECT id FROM users ORDER BY id DESC LIMIT 1`).Scan(&userId)
 	if result.Error != nil {
 		err = entity.STATUS_SERVICE_UNAVAILABLE
 		return
@@ -173,7 +173,7 @@ Update: userをuserIdで指定して更新する
 func (ur *userRepository) UpdateUser(input rest.NewUser, userId int) (err error) {
 
 	// レコードの更新
-	query := `UPDATE user SET `
+	query := `UPDATE users SET `
 	args := []interface{}{}
 
 	if input.Name != nil {
@@ -216,7 +216,7 @@ Delete: userをuserIdで指定して削除する
 func (ur *userRepository) DeleteUser(userId int) (err error) {
 
 	// userIdに対応するレコードを削除する
-	query := `DELETE FROM user WHERE id = ?`
+	query := `DELETE FROM users WHERE id = ?`
 	args := []interface{}{userId}
 
 	result := ur.db.Exec(query, args...)
