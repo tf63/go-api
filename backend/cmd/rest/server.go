@@ -32,7 +32,8 @@ func main() {
 
 	db, _ := external.ConnectDatabase(false)
 	er := repository.NewExpenseRepository(*db)
-	sh := handler.NewServerHandler(er)
+	ur := repository.NewUserRepository(*db)
+	sh := handler.NewServerHandler(er, ur)
 	options := rest.ChiServerOptions{BaseURL: "/api"}
 	ro := rest.HandlerWithOptions(sh, options)
 

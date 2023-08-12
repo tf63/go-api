@@ -209,7 +209,7 @@ Delete: userをuser_idで指定して削除する
 */
 func (ur *userRepository) DeleteUser(user_id int) (err error) {
 
-	// user_dに対応するレコードを削除する
+	// user_idに対応するレコードを削除する
 	query := `DELETE FROM user WHERE id = ?`
 	args := []interface{}{user_id}
 
