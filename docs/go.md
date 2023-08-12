@@ -23,3 +23,13 @@
     go mod tidy
 ```
 
+### インターフェース
+クラスがインターフェースを実装しているかチェック
+```
+    type serverHandler struct {
+        er repository.ExpenseRepository
+    }
+
+    // Make sure we conform to ServerInterface
+    var _ rest.ServerInterface = (*serverHandler)(nil)
+```

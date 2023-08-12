@@ -8,76 +8,78 @@
 */
 package external
 
-// import (
-// 	"fmt"
-// 	"os"
-// 	"strconv"
+import (
+	"fmt"
+	"os"
+	"strconv"
 
-// 	"gorm.io/driver/postgres"
-// 	"gorm.io/gorm"
-// )
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 
-// const div_size = 16
+	"github.com/tf63/go_api/internal/entity"
+)
 
-// // GORMでDBに接続し，GORMのDBオブジェクトを返す
-// func ConnectDatabase(isTest bool) (*gorm.DB, error) {
-// 	dsn := ""
-// 	// DBへの接続に必要な情報
-// 	if isTest {
-// 		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Tokyo",
-// 			os.Getenv("POSTGRES_HOST_TEST"),
-// 			os.Getenv("POSTGRES_USER"),
-// 			os.Getenv("POSTGRES_PASSWORD"),
-// 			os.Getenv("POSTGRES_NAME"),
-// 			// os.Getenv("POSTGRES_PORT"),
-// 			"5432",
-// 		)
-// 	} else {
-// 		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Tokyo",
-// 			os.Getenv("POSTGRES_HOST"),
-// 			os.Getenv("POSTGRES_USER"),
-// 			os.Getenv("POSTGRES_PASSWORD"),
-// 			os.Getenv("POSTGRES_NAME"),
-// 			os.Getenv("POSTGRES_PORT"),
-// 		)
-// 	}
+const div_size = 16
 
-// 	// DBへ接続
-// 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-// 	if err != nil {
-// 		return nil, err
-// 	}
+// GORMでDBに接続し，GORMのDBオブジェクトを返す
+func ConnectDatabase(isTest bool) (*gorm.DB, error) {
+	dsn := ""
+	// DBへの接続に必要な情報
+	if isTest {
+		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Tokyo",
+			os.Getenv("POSTGRES_HOST_TEST"),
+			os.Getenv("POSTGRES_USER"),
+			os.Getenv("POSTGRES_PASSWORD"),
+			os.Getenv("POSTGRES_NAME"),
+			// os.Getenv("POSTGRES_PORT"),
+			"5432",
+		)
+	} else {
+		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Tokyo",
+			os.Getenv("POSTGRES_HOST"),
+			os.Getenv("POSTGRES_USER"),
+			os.Getenv("POSTGRES_PASSWORD"),
+			os.Getenv("POSTGRES_NAME"),
+			os.Getenv("POSTGRES_PORT"),
+		)
+	}
 
-// 	// テスト時はテーブルを初期化する
-// 	if isTest {
-// 		db.Migrator().DropTable(&entity.User{})
-// 		for i := 1; i <= div_size; i++ {
-// 			table_name := "todos_" + strconv.Itoa(i)
-// 			db.Migrator().DropTable(table_name)
-// 		}
-// 	}
+	// DBへ接続
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		return nil, err
+	}
 
-// 	// マイグレーションを実行
-// 	err = db.AutoMigrate(&entity.User{})
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	// テスト時はテーブルを初期化する
+	if isTest {
+		db.Migrator().DropTable(&entity.User{})
+		for i := 1; i <= div_size; i++ {
+			table_name := "expenses_" + strconv.Itoa(i)
+			db.Migrator().DropTable(table_name)
+		}
+	}
 
-// 	// todoテーブルを複数作成する
-// 	for i := 1; i <= div_size; i++ {
-// 		table_name := "todos_" + strconv.Itoa(i)
-// 		if !db.Migrator().HasTable(table_name) {
-// 			err = db.Table(table_name).Migrator().CreateTable(&entity.Todo{})
+	// マイグレーションを実行
+	err = db.AutoMigrate(&entity.User{})
+	if err != nil {
+		return nil, err
+	}
 
-// 			if err != nil {
-// 				return nil, err
-// 			}
-// 		}
-// 	}
+	// expenseテーブルを複数作成する
+	for i := 1; i <= div_size; i++ {
+		table_name := "expenses_" + strconv.Itoa(i)
+		if !db.Migrator().HasTable(table_name) {
+			err = db.Table(table_name).Migrator().CreateTable(&entity.Expense{})
 
-// 	return db, nil
-// }
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
 
-// func GetDivSize() int {
-// 	return div_size
-// }
+	return db, nil
+}
+
+func GetDivSize() int {
+	return div_size
+}

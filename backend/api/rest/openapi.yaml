@@ -11,8 +11,8 @@ servers:
     description: production
 
 tags:
-  - name: "user"
-    description: ""
+  # - name: "user"
+  #   description: ""
   - name: "expense"
     description: ""
 
@@ -33,174 +33,175 @@ paths:
               $ref: "#/components/headers/LocationHeader"
           content: {}
         "503":
-          $ref: "#/components/responses/503_InternalServerError"
+          $ref: "#/components/responses/503_ServiceUnavailable"
 
-    get:
-      summary: Get expense entries
-      tags: ["expense"]
-      requestBody:
-        $ref: "#/components/requestBodies/PickUser"
-      responses:
-        "200":
-          description: The requested expense entries
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Expenses"
-        "503":
-          $ref: "#/components/responses/503_InternalServerError"
+  #   get:
+  #     summary: Get expense entries
+  #     tags: ["expense"]
+  #     requestBody:
+  #       $ref: "#/components/requestBodies/PickUser"
+  #     responses:
+  #       "200":
+  #         description: The requested expense entries
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/Expenses"
+  #       "503":
+  #         $ref: "#/components/responses/503_ServiceUnavailable"
 
-  /v1/expenses/{expense_id}:
-    get:
-      summary: Get an expense entry by ID
-      tags: ["expense"]
-      requestBody:
-        $ref: "#/components/requestBodies/PickUser"
-      parameters:
-        - $ref: "#/components/parameters/ExpenseId"
-      responses:
-        "200":
-          description: The requested expense entry
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Expense"
-        "404":
-          $ref: "#/components/responses/404_NotFound"
-        "503":
-          $ref: "#/components/responses/503_InternalServerError"
+  # /v1/expenses/{expense_id}:
+  #   get:
+  #     summary: Get an expense entry by ID
+  #     tags: ["expense"]
+  #     requestBody:
+  #       $ref: "#/components/requestBodies/PickUser"
+  #     parameters:
+  #       - $ref: "#/components/parameters/ExpenseId"
+  #     responses:
+  #       "200":
+  #         description: The requested expense entry
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/Expense"
+  #       "404":
+  #         $ref: "#/components/responses/404_NotFound"
+  #       "503":
+  #         $ref: "#/components/responses/503_ServiceUnavailable"
 
-    put:
-      summary: Update an expense entry by ID
-      tags: ["expense"]
-      requestBody:
-        $ref: "#/components/requestBodies/NewExpense"
-      parameters:
-        - $ref: "#/components/parameters/ExpenseId"
-      responses:
-        "204":
-          description: Expense entry updated successfully
-        "404":
-          $ref: "#/components/responses/404_NotFound"
-        "503":
-          $ref: "#/components/responses/503_InternalServerError"
+  #   put:
+  #     summary: Update an expense entry by ID
+  #     tags: ["expense"]
+  #     requestBody:
+  #       $ref: "#/components/requestBodies/NewExpense"
+  #     parameters:
+  #       - $ref: "#/components/parameters/ExpenseId"
+  #     responses:
+  #       "204":
+  #         description: Expense entry updated successfully
+  #       "404":
+  #         $ref: "#/components/responses/404_NotFound"
+  #       "503":
+  #         $ref: "#/components/responses/503_ServiceUnavailable"
 
-    delete:
-      summary: Delete an expense entry by ID
-      tags: ["expense"]
-      requestBody:
-        $ref: "#/components/requestBodies/PickUser"
-      parameters:
-        - $ref: "#/components/parameters/ExpenseId"
-      responses:
-        "204":
-          description: Expense entry deleted successfully
-        "404":
-          $ref: "#/components/responses/404_NotFound"
-        "503":
-          $ref: "#/components/responses/503_InternalServerError"
+  #   delete:
+  #     summary: Delete an expense entry by ID
+  #     tags: ["expense"]
+  #     requestBody:
+  #       $ref: "#/components/requestBodies/PickUser"
+  #     parameters:
+  #       - $ref: "#/components/parameters/ExpenseId"
+  #     responses:
+  #       "204":
+  #         description: Expense entry deleted successfully
+  #       "404":
+  #         $ref: "#/components/responses/404_NotFound"
+  #       "503":
+  #         $ref: "#/components/responses/503_ServiceUnavailable"
 
-  # user
-  # ----------------------------------------------------------------
-  /v1/users/:
-    post:
-      summary: Create an user entry
-      tags: ["user"]
-      requestBody:
-        $ref: "#/components/requestBodies/NewUser"
-      responses:
-        "201":
-          description: User entry created successfully
-          headers:
-            Location:
-              $ref: "#/components/headers/LocationHeader"
-          content: {}
-        "503":
-          $ref: "#/components/responses/503_InternalServerError"
+  # # user
+  # # ----------------------------------------------------------------
+  # /v1/users/:
+  #   post:
+  #     summary: Create an user entry
+  #     tags: ["user"]
+  #     requestBody:
+  #       $ref: "#/components/requestBodies/NewUser"
+  #     responses:
+  #       "201":
+  #         description: User entry created successfully
+  #         headers:
+  #           Location:
+  #             $ref: "#/components/headers/LocationHeader"
+  #         content: {}
+  #       "503":
+  #         $ref: "#/components/responses/503_ServiceUnavailable"
 
-    get:
-      summary: Get user entries
-      tags: ["user"]
-      responses:
-        "200":
-          description: The requested user entries
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Users"
-        "503":
-          $ref: "#/components/responses/503_InternalServerError"
+  #   get:
+  #     summary: Get user entries
+  #     tags: ["user"]
+  #     responses:
+  #       "200":
+  #         description: The requested user entries
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/Users"
+  #       "503":
+  #         $ref: "#/components/responses/503_ServiceUnavailable"
 
-  /v1/users/{user_id}:
-    get:
-      summary: Get an user entry by ID
-      tags: ["user"]
-      parameters:
-        - $ref: "#/components/parameters/UserId"
-      responses:
-        "200":
-          description: The requested user entry
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-        "404":
-          $ref: "#/components/responses/404_NotFound"
-        "503":
-          $ref: "#/components/responses/503_InternalServerError"
-    put:
-      summary: Update an expense entry by ID
-      tags: ["user"]
-      requestBody:
-        $ref: "#/components/requestBodies/NewUser"
-      parameters:
-        - $ref: "#/components/parameters/UserId"
-      responses:
-        "204":
-          description: Expense entry deleted successfully
-        "404":
-          $ref: "#/components/responses/404_NotFound"
-        "503":
-          $ref: "#/components/responses/503_InternalServerError"
+  # /v1/users/{user_id}:
+  #   get:
+  #     summary: Get an user entry by ID
+  #     tags: ["user"]
+  #     parameters:
+  #       - $ref: "#/components/parameters/UserId"
+  #     responses:
+  #       "200":
+  #         description: The requested user entry
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: "#/components/schemas/User"
+  #       "404":
+  #         $ref: "#/components/responses/404_NotFound"
+  #       "503":
+  #         $ref: "#/components/responses/503_ServiceUnavailable"
+  #   put:
+  #     summary: Update an expense entry by ID
+  #     tags: ["user"]
+  #     requestBody:
+  #       $ref: "#/components/requestBodies/NewUser"
+  #     parameters:
+  #       - $ref: "#/components/parameters/UserId"
+  #     responses:
+  #       "204":
+  #         description: Expense entry deleted successfully
+  #       "404":
+  #         $ref: "#/components/responses/404_NotFound"
+  #       "503":
+  #         $ref: "#/components/responses/503_ServiceUnavailable"
 
-    delete:
-      summary: Delete an expense entry by ID
-      tags: ["user"]
-      parameters:
-        - $ref: "#/components/parameters/UserId"
-      responses:
-        "204":
-          description: Expense entry deleted successfully
-        "404":
-          $ref: "#/components/responses/404_NotFound"
-        "503":
-          $ref: "#/components/responses/503_InternalServerError"
+  #   delete:
+  #     summary: Delete an expense entry by ID
+  #     tags: ["user"]
+  #     parameters:
+  #       - $ref: "#/components/parameters/UserId"
+  #     responses:
+  #       "204":
+  #         description: Expense entry deleted successfully
+  #       "404":
+  #         $ref: "#/components/responses/404_NotFound"
+  #       "503":
+  #         $ref: "#/components/responses/503_ServiceUnavailable"
 
 components:
   schemas:
     # Expense
     # ----------------------------------------------------------------
-    Expense:
-      type: object
-      properties:
-        id: { type: number, example: 1 }
-        title: { type: string, example: payment }
-        price: { type: number, example: 100 }
-    Expenses:
-      type: array
-      items:
-        $ref: "#/components/schemas/Expense"
+    # Expense:
+    #   type: object
+    #   properties:
+    #     id: { type: integer, example: 1 }
+    #     title: { type: string, example: payment }
+    #     price: { type: integer, example: 100 }
+    #     user_id: { type: integer, example: 1 }
+    # Expenses:
+    #   type: array
+    #   items:
+    #     $ref: "#/components/schemas/Expense"
     # User
     # ----------------------------------------------------------------
-    User:
-      type: object
-      properties:
-        id: { type: number, example: 1 }
-        name: { type: string, example: user }
-    Users:
-      type: array
-      items:
-        $ref: "#/components/schemas/User"
+    # User:
+    #   type: object
+    #   properties:
+    #     id: { type: integer, example: 1 }
+    #     name: { type: string, example: user }
+    # Users:
+    #   type: array
+    #   items:
+    #     $ref: "#/components/schemas/User"
     # Error
     # ----------------------------------------------------------------
     NotFound:
@@ -216,7 +217,7 @@ components:
             properties:
               field: { type: string }
               code: { type: string }
-    InternalServerError:
+    ServiceUnavailable:
       type: object
       properties:
         code: { type: string }
@@ -230,38 +231,38 @@ components:
               field: { type: string }
               code: { type: string }
 
-  parameters:
-    ExpenseId:
-      name: expense_id
-      in: path
-      required: true
-      schema: { type:integer, example: 1 }
-      example: 1
-    UserId:
-      name: user_id
-      in: path
-      required: true
-      schema: { type:integer, example: 1 }
-      example: 1
+  # parameters:
+  #   ExpenseId:
+  #     name: expense_id
+  #     in: path
+  #     required: true
+  #     schema: { type:integer, example: 1 }
+  #     example: 1
+  #   UserId:
+  #     name: user_id
+  #     in: path
+  #     required: true
+  #     schema: { type:integer, example: 1 }
+  #     example: 1
 
   requestBodies:
-    NewUser:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              name: { type: string, example: "user" }
+    # NewUser:
+    #   required: true
+    #   content:
+    #     application/json:
+    #       schema:
+    #         type: object
+    #         properties:
+    #           name: { type: string, example: "user" }
 
-    PickUser:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              userId: { type: number, example: "1" }
+    # PickUser:
+    #   required: true
+    #   content:
+    #     application/json:
+    #       schema:
+    #         type: object
+    #         properties:
+    #           userId: { type: integer, example: "1" }
 
     NewExpense:
       required: true
@@ -271,15 +272,15 @@ components:
             type: object
             properties:
               title: { type: string, example: "payment" }
-              price: { type: number, example: "100" }
-              user_id: { type: number, "1" }
+              price: { type: integer, example: "100" }
+              user_id: { type: integer, "1" }
             # date:
             #   type: string
             #   format: date
             # description:
             #   type: string
             # amount:
-            #   type: number
+            #   type: integer
 
   responses:
     404_NotFound:
@@ -288,12 +289,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/NotFound"
-    503_InternalServerError:
-      description: InternalServerError
+    503_ServiceUnavailable:
+      description: ServiceUnavailable
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/InternalServerError"
+            $ref: "#/components/schemas/ServiceUnavailable"
 
   headers:
     LocationHeader:
