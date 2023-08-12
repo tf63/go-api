@@ -43,8 +43,6 @@ go installもしないとだめ
     oapi-codegen --generate "chi-server" --package rest api/rest/openapi.yaml > api/rest/server.gen.go
 ```
 
-
-
 (全部生成)
 ```
     oapi-codegen api/rest/openapi.yaml > api/rest/openapi.gen.go

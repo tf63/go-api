@@ -128,9 +128,10 @@ Read: Userをlimit件取得する (limitは入力として与えるべきかも�
 */
 func (ur *userRepository) ReadUsers() (users []entity.User, err error) {
 
-	limit := 500
 	// レコードをlimit件取得
 	record := []entity.User{}
+
+	limit := 500
 
 	query := "SELECT * FROM users LIMIT ?"
 	args := []interface{}{uint(limit)}

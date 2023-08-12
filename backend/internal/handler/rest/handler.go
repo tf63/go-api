@@ -13,6 +13,7 @@ import (
 
 type serverHandler struct {
 	er repository.ExpenseRepository
+	ur repository.UserRepository
 }
 
 // Make sure we conform to ServerInterface
@@ -47,6 +48,6 @@ func (sh *serverHandler) PostV1Expenses(w http.ResponseWriter, r *http.Request) 
 
 	log.Printf(`Post 201 [OK]`)
 
-	w.Header().Set("Location", r.Host+r.URL.Path+"/"+strconv.Itoa(*expense_id))
+	w.Header().Set("Location", r.Host+r.URL.Path+"/"+strconv.Itoa(expense_id))
 	w.WriteHeader(http.StatusCreated)
 }
