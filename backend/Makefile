@@ -17,8 +17,9 @@ TOOLS=\
 	github.com/haya14busa/goplay/cmd/goplay@latest \
 	github.com/go-delve/delve/cmd/dlv@latest \
 	github.com/99designs/gqlgen@latest \
-	golang.org/x/tools/cmd/godoc@latest 
-
+	golang.org/x/tools/cmd/godoc@latest \
+	github.com/deepmap/oapi-codegen/cmd/oapi-codegen@latest
+	
 install-tools:
 	@for tool in $(TOOLS) ; do \
 		go install $$tool; \

@@ -47,5 +47,4 @@ func main() {
 	log.Printf(`Starting Server... at ` + *port)
 	// And we serve HTTP until the world ends.
 	log.Fatal(s.ListenAndServe())
-
 }

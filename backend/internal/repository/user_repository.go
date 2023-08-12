@@ -4,95 +4,223 @@
 */
 package repository
 
-// /*
-// UserRepository Interface
-//   - Mockするので抽象化
-// */
-// type UserRepository interface {
-// 	SelectUser(input dto.SelectUser) (user *dto.User, err error)
-// 	CreateUser(input dto.CreateUser) (err error)
-// }
+import (
+	"time"
 
-// // UserRepository 構造体
-// type userRepository struct {
-// 	db gorm.DB
-// }
+	"github.com/tf63/go_api/api/rest"
+	"github.com/tf63/go_api/internal/entity"
+	"gorm.io/gorm"
+)
 
-// // インスタンスの取得?
-// func NewUserRepository(db gorm.DB) UserRepository {
-// 	return &userRepository{db}
-// }
+/*
+UserRepository Interface
+  - Mockするので抽象化
+*/
+type UserRepository interface {
+	CreateUser(input rest.NewUser) (user_id int, err error)
+	ReadUser(user_id int) (user entity.User, err error)
+	ReadUsers() (users []entity.User, err error)
+	UpdateUser(input rest.NewUser, user_id int) (err error)
+	DeleteUser(user_id int) (err error)
+}
 
-// /*
-// Read: UserをuserIDで指定して1件取得する (nameからuserID等を取得すべきかもしれない)
-//   - input:
-//   - UserID string `json:"userId"`
-//   - return:
-//   - User 1件
-//   - Error:
-//   - STATUS_SERVICE_UNAVAILABLE (503)
-// */
-// func (ur *userRepository) SelectUser(input dto.SelectUser) (*dto.User, error) {
-// 	// string->intに変換し，userIDを取得
-// 	userId, err := strconv.Atoi(input.UserID)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+// UserRepository 構造体
+type userRepository struct {
+	db gorm.DB
+}
 
-// 	// userIDからレコードを取得
-// 	record := entity.User{}
+// Make sure we conform to ServerInterface
+var _ UserRepository = (*userRepository)(nil)
 
-// 	query := "SELECT * FROM users WHERE id = ?"
-// 	args := []interface{}{userId}
+// インスタンスの取得?
+func NewUserRepository(db gorm.DB) UserRepository {
+	return &userRepository{db}
+}
 
-// 	// レコードを割り当てる
-// 	result := ur.db.Raw(query, args...).Scan(&record)
+/*
+Create: Todoを作成する
+  - input:
+  - Name string `json:"name"`
+  - return:
+  - None
+  - Error:
+  - STATUS_SERVICE_UNAVAILABLE (503)
+*/
+func (ur *userRepository) CreateUser(input rest.NewUser) (user_id int, err error) {
 
-// 	if result.Error == gorm.ErrRecordNotFound {
-// 		// gormのエラーの種類でユーザーが存在するかどうかわかる
-// 		// 意味ないが後学のための残しておく
-// 		return nil, STATUS_SERVICE_UNAVAILABLE // 503
-// 	} else if result.Error != nil {
-// 		return nil, STATUS_SERVICE_UNAVAILABLE // 503
-// 	}
+	// inputを取得
+	if input.Name == nil {
+		err = entity.STATUS_SERVICE_UNAVAILABLE
+		return
+	}
 
-// 	// レコードをjson形式のモデルに変換
-// 	user := entity.UserFromEntity(&record)
-// 	return user, nil
-// }
+	name := *input.Name
 
-// /*
-// Create: Todoを作成する
-//   - input:
-//   - Name string `json:"name"`
-//   - return:
-//   - None
-//   - Error:
-//   - STATUS_SERVICE_UNAVAILABLE (503)
-// */
-// func (ur *userRepository) CreateUser(input dto.CreateUser) error {
-// 	//  ユーザー名は必須にする
-// 	if input.Name == "" {
-// 		return STATUS_SERVICE_UNAVAILABLE // 503
-// 	}
+	query := `
+	INSERT INTO users (name, created_at, updated_at)
+	VALUES (?, ?, ?)
+	`
 
-// 	query := `
-// 	INSERT INTO users (name, created_at, updated_at)
-// 	VALUES (?, ?, ?)
-// 	`
+	args := []interface{}{
+		name,
+		time.Now(),
+		time.Now(),
+	}
 
-// 	args := []interface{}{
-// 		input.Name,
-// 		time.Now(),
-// 		time.Now(),
-// 	}
+	// レコードの作成
+	result := ur.db.Exec(query, args...)
 
-// 	// レコードの作成
-// 	result := ur.db.Exec(query, args...)
+	if result.Error != nil {
+		err = entity.STATUS_SERVICE_UNAVAILABLE
+		return
+	}
 
-// 	if result.Error != nil {
-// 		return STATUS_SERVICE_UNAVAILABLE // 503
-// 	}
+	result = ur.db.Raw(`SELECT id FROM user ORDER BY id DESC LIMIT 1`).Scan(&user_id)
+	if result.Error != nil {
+		err = entity.STATUS_SERVICE_UNAVAILABLE
+		return
+	}
 
-// 	return nil
-// }
+	return
+}
+
+/*
+Read: UserをuserIDで指定して1件取得する (nameからuserID等を取得すべきかもしれない)
+  - input:
+  - UserID string `json:"userId"`
+  - return:
+  - User 1件
+  - Error:
+  - STATUS_SERVICE_UNAVAILABLE (503)
+*/
+func (ur *userRepository) ReadUser(user_id int) (user entity.User, err error) {
+
+	// userIDからレコードを取得
+	record := entity.User{}
+
+	query := "SELECT * FROM users WHERE id = ?"
+	args := []interface{}{uint(user_id)}
+
+	// レコードを割り当てる
+	result := ur.db.Raw(query, args...).Scan(&record)
+
+	if result.Error == gorm.ErrRecordNotFound {
+		// gormのエラーの種類でユーザーが存在するかどうかわかる
+		// 意味ないが後学のための残しておく
+		err = entity.STATUS_SERVICE_UNAVAILABLE
+		return
+	} else if result.Error != nil {
+		err = entity.STATUS_SERVICE_UNAVAILABLE
+		return
+	}
+
+	user = record
+	return
+}
+
+/*
+Read: Userをlimit件取得する (limitは入力として与えるべきかもしれない)
+  - input: None
+  - return:
+  - User 1件
+  - Error:
+  - STATUS_SERVICE_UNAVAILABLE (503)
+*/
+func (ur *userRepository) ReadUsers() (users []entity.User, err error) {
+
+	limit := 500
+	// レコードをlimit件取得
+	record := []entity.User{}
+
+	query := "SELECT * FROM users LIMIT ?"
+	args := []interface{}{uint(limit)}
+
+	// レコードを割り当てる
+	result := ur.db.Raw(query, args...).Scan(&record)
+
+	if result.Error == gorm.ErrRecordNotFound {
+		// gormのエラーの種類でユーザーが存在するかどうかわかる
+		// 意味ないが後学のための残しておく
+		err = entity.STATUS_SERVICE_UNAVAILABLE
+		return
+	} else if result.Error != nil {
+		err = entity.STATUS_SERVICE_UNAVAILABLE
+		return
+	}
+
+	users = record
+	return
+}
+
+/*
+Update: userをuser_idで指定して更新する
+  - input:
+  - Name *string `json:"name,omitempty"`
+  - user_id int
+  - return:
+  - None
+  - Error:
+  - STATUS_NOT_FOUND (404)
+  - STATUS_SERVICE_UNAVAILABLE (503)
+*/
+func (ur *userRepository) UpdateUser(input rest.NewUser, user_id int) (err error) {
+
+	// レコードの更新
+	query := `UPDATE user SET `
+	args := []interface{}{}
+
+	if input.Name != nil {
+		query += "name = ?, "
+		args = append(args, *input.Name)
+	}
+
+	query += "updated_at = ? "
+	args = append(args, time.Now())
+
+	query += "WHERE id = ?"
+	args = append(args, user_id)
+
+	// Updateの実行
+	result := ur.db.Exec(query, args...)
+
+	// エラーハンドリング
+	if result.Error != nil {
+		err = entity.STATUS_SERVICE_UNAVAILABLE // 503
+		return
+	} else if result.RowsAffected == 0 {
+		// 更新の結果，影響がなかったらtodoIdが存在しないと考える
+		err = entity.STATUS_NOT_FOUND // 404
+		return
+	}
+
+	return
+}
+
+/*
+Delete: userをuser_idで指定して削除する
+  - input:
+  - user_id int
+  - return:
+  - None
+  - Error:
+  - STATUS_NOT_FOUND (404)
+  - STATUS_SERVICE_UNAVAILABLE (503)
+*/
+func (ur *userRepository) DeleteUser(user_id int) (err error) {
+
+	// user_dに対応するレコードを削除する
+	query := `DELETE FROM user WHERE id = ?`
+	args := []interface{}{user_id}
+
+	result := ur.db.Exec(query, args...)
+
+	// エラーハンドリング
+	if result.Error != nil {
+		return entity.STATUS_SERVICE_UNAVAILABLE // 503
+	} else if result.RowsAffected == 0 {
+		// 削除の結果，影響がなかったらtodoIdが存在しないと考える
+		return entity.STATUS_NOT_FOUND // 404
+	}
+
+	return nil
+}

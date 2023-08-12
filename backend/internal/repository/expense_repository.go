@@ -19,7 +19,7 @@ import (
 )
 
 type ExpenseRepository interface {
-	CreateExpense(input rest.NewExpense) (expense_id *int, err error)
+	CreateExpense(input rest.NewExpense) (expense_id int, err error)
 }
 
 type expenseRepository struct {
@@ -30,9 +30,9 @@ func NewExpenseRepository(db gorm.DB) ExpenseRepository {
 	return &expenseRepository{db}
 }
 
-func GetGroupId(userId int) string {
+func GetGroupId(user_id int) string {
 	div_size := external.GetDivSize()
-	return strconv.Itoa((userId % div_size) + 1)
+	return strconv.Itoa((user_id % div_size) + 1)
 }
 
 /*
@@ -46,7 +46,7 @@ Create: Expenseを作成する
   - Error:
   - STATUS_SERVICE_UNAVAILABLE (503)
 */
-func (er *expenseRepository) CreateExpense(input rest.NewExpense) (expense_id *int, err error) {
+func (er *expenseRepository) CreateExpense(input rest.NewExpense) (expense_id int, err error) {
 
 	// inputを取得
 	if input.Title == nil || input.Price == nil || input.UserId == nil {
@@ -56,20 +56,20 @@ func (er *expenseRepository) CreateExpense(input rest.NewExpense) (expense_id *i
 
 	title := *input.Title
 	price := *input.Price
-	userId := *input.UserId
+	user_id := *input.UserId
 
 	// userIDでレコードを絞る
-	userGroup := GetGroupId(userId)
+	user_group := GetGroupId(user_id)
 
 	query := `
-	INSERT INTO expenses_` + userGroup + ` (title, price, user_id, created_at, updated_at)
+	INSERT INTO expenses_` + user_group + ` (title, price, user_id, created_at, updated_at)
 	VALUES (?, ?, ?, ?, ?)
 	`
 
 	args := []interface{}{
 		title,
 		price,
-		uint(userId),
+		uint(user_id),
 		time.Now(),
 		time.Now(),
 	}
@@ -81,7 +81,7 @@ func (er *expenseRepository) CreateExpense(input rest.NewExpense) (expense_id *i
 		return
 	}
 
-	result = er.db.Raw(`SELECT id FROM expenses_` + userGroup + ` ORDER BY id DESC LIMIT 1`).Scan(&expense_id)
+	result = er.db.Raw(`SELECT id FROM expenses_` + user_group + ` ORDER BY id DESC LIMIT 1`).Scan(&expense_id)
 	if result.Error != nil {
 		err = entity.STATUS_SERVICE_UNAVAILABLE
 		return

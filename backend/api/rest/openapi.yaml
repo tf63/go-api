@@ -5,7 +5,7 @@ info:
   version: 1.0.0
 
 servers:
-  - url: "http://localhost:3000/api"
+  - url: "http://localhost:8080/api"
     description: development
   - url: "http://demo.com/api"
     description: production
@@ -35,173 +35,173 @@ paths:
         "503":
           $ref: "#/components/responses/503_ServiceUnavailable"
 
-  #   get:
-  #     summary: Get expense entries
-  #     tags: ["expense"]
-  #     requestBody:
-  #       $ref: "#/components/requestBodies/PickUser"
-  #     responses:
-  #       "200":
-  #         description: The requested expense entries
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: "#/components/schemas/Expenses"
-  #       "503":
-  #         $ref: "#/components/responses/503_ServiceUnavailable"
+    get:
+      summary: Get expense entries
+      tags: ["expense"]
+      requestBody:
+        $ref: "#/components/requestBodies/FindUser"
+      responses:
+        "200":
+          description: The requested expense entries
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Expenses"
+        "503":
+          $ref: "#/components/responses/503_ServiceUnavailable"
 
-  # /v1/expenses/{expense_id}:
-  #   get:
-  #     summary: Get an expense entry by ID
-  #     tags: ["expense"]
-  #     requestBody:
-  #       $ref: "#/components/requestBodies/PickUser"
-  #     parameters:
-  #       - $ref: "#/components/parameters/ExpenseId"
-  #     responses:
-  #       "200":
-  #         description: The requested expense entry
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: "#/components/schemas/Expense"
-  #       "404":
-  #         $ref: "#/components/responses/404_NotFound"
-  #       "503":
-  #         $ref: "#/components/responses/503_ServiceUnavailable"
+  /v1/expenses/{expense_id}:
+    get:
+      summary: Get an expense entry by ID
+      tags: ["expense"]
+      requestBody:
+        $ref: "#/components/requestBodies/FindUser"
+      parameters:
+        - $ref: "#/components/parameters/ExpenseId"
+      responses:
+        "200":
+          description: The requested expense entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Expense"
+        "404":
+          $ref: "#/components/responses/404_NotFound"
+        "503":
+          $ref: "#/components/responses/503_ServiceUnavailable"
 
-  #   put:
-  #     summary: Update an expense entry by ID
-  #     tags: ["expense"]
-  #     requestBody:
-  #       $ref: "#/components/requestBodies/NewExpense"
-  #     parameters:
-  #       - $ref: "#/components/parameters/ExpenseId"
-  #     responses:
-  #       "204":
-  #         description: Expense entry updated successfully
-  #       "404":
-  #         $ref: "#/components/responses/404_NotFound"
-  #       "503":
-  #         $ref: "#/components/responses/503_ServiceUnavailable"
+    put:
+      summary: Update an expense entry by ID
+      tags: ["expense"]
+      requestBody:
+        $ref: "#/components/requestBodies/NewExpense"
+      parameters:
+        - $ref: "#/components/parameters/ExpenseId"
+      responses:
+        "204":
+          description: Expense entry updated successfully
+        "404":
+          $ref: "#/components/responses/404_NotFound"
+        "503":
+          $ref: "#/components/responses/503_ServiceUnavailable"
 
-  #   delete:
-  #     summary: Delete an expense entry by ID
-  #     tags: ["expense"]
-  #     requestBody:
-  #       $ref: "#/components/requestBodies/PickUser"
-  #     parameters:
-  #       - $ref: "#/components/parameters/ExpenseId"
-  #     responses:
-  #       "204":
-  #         description: Expense entry deleted successfully
-  #       "404":
-  #         $ref: "#/components/responses/404_NotFound"
-  #       "503":
-  #         $ref: "#/components/responses/503_ServiceUnavailable"
+    delete:
+      summary: Delete an expense entry by ID
+      tags: ["expense"]
+      requestBody:
+        $ref: "#/components/requestBodies/FindUser"
+      parameters:
+        - $ref: "#/components/parameters/ExpenseId"
+      responses:
+        "204":
+          description: Expense entry deleted successfully
+        "404":
+          $ref: "#/components/responses/404_NotFound"
+        "503":
+          $ref: "#/components/responses/503_ServiceUnavailable"
 
   # # user
   # # ----------------------------------------------------------------
-  # /v1/users/:
-  #   post:
-  #     summary: Create an user entry
-  #     tags: ["user"]
-  #     requestBody:
-  #       $ref: "#/components/requestBodies/NewUser"
-  #     responses:
-  #       "201":
-  #         description: User entry created successfully
-  #         headers:
-  #           Location:
-  #             $ref: "#/components/headers/LocationHeader"
-  #         content: {}
-  #       "503":
-  #         $ref: "#/components/responses/503_ServiceUnavailable"
+  /v1/users/:
+    post:
+      summary: Create an user entry
+      tags: ["user"]
+      requestBody:
+        $ref: "#/components/requestBodies/NewUser"
+      responses:
+        "201":
+          description: User entry created successfully
+          headers:
+            Location:
+              $ref: "#/components/headers/LocationHeader"
+          content: {}
+        "503":
+          $ref: "#/components/responses/503_ServiceUnavailable"
 
-  #   get:
-  #     summary: Get user entries
-  #     tags: ["user"]
-  #     responses:
-  #       "200":
-  #         description: The requested user entries
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: "#/components/schemas/Users"
-  #       "503":
-  #         $ref: "#/components/responses/503_ServiceUnavailable"
+    get:
+      summary: Get user entries
+      tags: ["user"]
+      responses:
+        "200":
+          description: The requested user entries
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+        "503":
+          $ref: "#/components/responses/503_ServiceUnavailable"
 
-  # /v1/users/{user_id}:
-  #   get:
-  #     summary: Get an user entry by ID
-  #     tags: ["user"]
-  #     parameters:
-  #       - $ref: "#/components/parameters/UserId"
-  #     responses:
-  #       "200":
-  #         description: The requested user entry
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: "#/components/schemas/User"
-  #       "404":
-  #         $ref: "#/components/responses/404_NotFound"
-  #       "503":
-  #         $ref: "#/components/responses/503_ServiceUnavailable"
-  #   put:
-  #     summary: Update an expense entry by ID
-  #     tags: ["user"]
-  #     requestBody:
-  #       $ref: "#/components/requestBodies/NewUser"
-  #     parameters:
-  #       - $ref: "#/components/parameters/UserId"
-  #     responses:
-  #       "204":
-  #         description: Expense entry deleted successfully
-  #       "404":
-  #         $ref: "#/components/responses/404_NotFound"
-  #       "503":
-  #         $ref: "#/components/responses/503_ServiceUnavailable"
+  /v1/users/{user_id}:
+    get:
+      summary: Get an user entry by ID
+      tags: ["user"]
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "200":
+          description: The requested user entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "404":
+          $ref: "#/components/responses/404_NotFound"
+        "503":
+          $ref: "#/components/responses/503_ServiceUnavailable"
+    put:
+      summary: Update an expense entry by ID
+      tags: ["user"]
+      requestBody:
+        $ref: "#/components/requestBodies/NewUser"
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "204":
+          description: Expense entry deleted successfully
+        "404":
+          $ref: "#/components/responses/404_NotFound"
+        "503":
+          $ref: "#/components/responses/503_ServiceUnavailable"
 
-  #   delete:
-  #     summary: Delete an expense entry by ID
-  #     tags: ["user"]
-  #     parameters:
-  #       - $ref: "#/components/parameters/UserId"
-  #     responses:
-  #       "204":
-  #         description: Expense entry deleted successfully
-  #       "404":
-  #         $ref: "#/components/responses/404_NotFound"
-  #       "503":
-  #         $ref: "#/components/responses/503_ServiceUnavailable"
+    delete:
+      summary: Delete an expense entry by ID
+      tags: ["user"]
+      parameters:
+        - $ref: "#/components/parameters/UserId"
+      responses:
+        "204":
+          description: Expense entry deleted successfully
+        "404":
+          $ref: "#/components/responses/404_NotFound"
+        "503":
+          $ref: "#/components/responses/503_ServiceUnavailable"
 
 components:
   schemas:
     # Expense
     # ----------------------------------------------------------------
-    # Expense:
-    #   type: object
-    #   properties:
-    #     id: { type: integer, example: 1 }
-    #     title: { type: string, example: payment }
-    #     price: { type: integer, example: 100 }
-    #     user_id: { type: integer, example: 1 }
-    # Expenses:
-    #   type: array
-    #   items:
-    #     $ref: "#/components/schemas/Expense"
+    Expense:
+      type: object
+      properties:
+        id: { type: integer, example: 1 }
+        title: { type: string, example: payment }
+        price: { type: integer, example: 100 }
+        user_id: { type: integer, example: 1 }
+    Expenses:
+      type: array
+      items:
+        $ref: "#/components/schemas/Expense"
     # User
     # ----------------------------------------------------------------
-    # User:
-    #   type: object
-    #   properties:
-    #     id: { type: integer, example: 1 }
-    #     name: { type: string, example: user }
-    # Users:
-    #   type: array
-    #   items:
-    #     $ref: "#/components/schemas/User"
+    User:
+      type: object
+      properties:
+        id: { type: integer, example: 1 }
+        name: { type: string, example: user }
+    Users:
+      type: array
+      items:
+        $ref: "#/components/schemas/User"
     # Error
     # ----------------------------------------------------------------
     NotFound:
@@ -231,38 +231,38 @@ components:
               field: { type: string }
               code: { type: string }
 
-  # parameters:
-  #   ExpenseId:
-  #     name: expense_id
-  #     in: path
-  #     required: true
-  #     schema: { type:integer, example: 1 }
-  #     example: 1
-  #   UserId:
-  #     name: user_id
-  #     in: path
-  #     required: true
-  #     schema: { type:integer, example: 1 }
-  #     example: 1
+  parameters:
+    ExpenseId:
+      name: expense_id
+      in: path
+      required: true
+      schema: { type:integer, example: 1 }
+      example: 1
+    UserId:
+      name: user_id
+      in: path
+      required: true
+      schema: { type:integer, example: 1 }
+      example: 1
 
   requestBodies:
-    # NewUser:
-    #   required: true
-    #   content:
-    #     application/json:
-    #       schema:
-    #         type: object
-    #         properties:
-    #           name: { type: string, example: "user" }
+    NewUser:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name: { type: string, example: "user" }
 
-    # PickUser:
-    #   required: true
-    #   content:
-    #     application/json:
-    #       schema:
-    #         type: object
-    #         properties:
-    #           userId: { type: integer, example: "1" }
+    FindUser:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              userId: { type: integer, example: "1" }
 
     NewExpense:
       required: true

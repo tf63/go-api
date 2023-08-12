@@ -15,9 +15,10 @@ https://swagger.io/blog/api-strategy/difference-between-swagger-and-openapi/
 https://github.com/deepmap/oapi-codegen/tree/master/examples/petstore-expanded
 
 **インストール**
-
+go installもしないとだめ
 ```
     go get github.com/deepmap/oapi-codegen/cmd/oapi-codegen@latest
+    go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@latest
     go get github.com/deepmap/oapi-codegen/pkg/runtime@latest
     go get github.com/deepmap/oapi-codegen/pkg/types@latest
     # net/httpでもコード生成にchiが必要?
