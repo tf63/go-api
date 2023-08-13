@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>graph - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../../../../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../../../../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.19.12";</script>
+<script src="../../../../../../lib/godoc/godocs.js" defer></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="http://localhost:6060/pkg/">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="http://localhost:6060/pkg/">GoDoc</a></div>
+<a href="index.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://localhost:6060/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package graph
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "github.com/tf63/go_api/api/graph"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="index.html#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="index.html#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+				
+				<dd><a href="index.html#NewExecutableSchema">func NewExecutableSchema(cfg Config) graphql.ExecutableSchema</a></dd>
+			
+			
+				
+				<dd><a href="index.html#ComplexityRoot">type ComplexityRoot</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Config">type Config</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#DirectiveRoot">type DirectiveRoot</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#Expense">type Expense</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#FindUser">type FindUser</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#MutationResolver">type MutationResolver</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#NewExpense">type NewExpense</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#NewUser">type NewUser</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#QueryResolver">type QueryResolver</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#ResolverRoot">type ResolverRoot</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#User">type User</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://localhost:6060/src/github.com/tf63/go_api/api/graph/generated.go">generated.go</a>
+			
+				<a href="http://localhost:6060/src/github.com/tf63/go_api/api/graph/types.gen.go">types.gen.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+		
+			
+			
+			<h2 id="NewExecutableSchema">func <a href="http://localhost:6060/src/github.com/tf63/go_api/api/graph/generated.go?s=523:584#L15">NewExecutableSchema</a>
+				<a class="permalink" href="index.html#NewExecutableSchema">&#xb6;</a>
+				
+				
+			</h2>
+			<pre>func NewExecutableSchema(cfg <a href="index.html#Config">Config</a>) <a href="http://localhost:6060/pkg/github.com/99designs/gqlgen/graphql/">graphql</a>.<a href="http://localhost:6060/pkg/github.com/99designs/gqlgen/graphql/#ExecutableSchema">ExecutableSchema</a></pre>
+			<p>NewExecutableSchema creates an ExecutableSchema from the ResolverRoot interface.
+
+			
+			
+
+		
+		
+			
+			
+			<h2 id="ComplexityRoot">type <a href="http://localhost:6060/src/github.com/tf63/go_api/api/graph/generated.go?s=927:2104#L37">ComplexityRoot</a>
+				<a class="permalink" href="index.html#ComplexityRoot">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type ComplexityRoot struct {
+<span id="ComplexityRoot.Expense"></span>    Expense struct {
+        CreatedAt func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+        ID        func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+        Price     func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+        Title     func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+        UpdatedAt func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+        UserID    func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+    }
+
+<span id="ComplexityRoot.Mutation"></span>    Mutation struct {
+        CreateExpense func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>, input <a href="index.html#NewExpense">NewExpense</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+        CreateUser    func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>, input <a href="index.html#NewUser">NewUser</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+        DeleteExpense func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>, input <a href="index.html#FindUser">FindUser</a>, expenseID <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+        DeleteUser    func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>, userID <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+        UpdateExpense func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>, input <a href="index.html#NewExpense">NewExpense</a>, expenseID <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+        UpdateUser    func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>, input <a href="index.html#NewUser">NewUser</a>, userID <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+    }
+
+<span id="ComplexityRoot.Query"></span>    Query struct {
+        Expense  func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>, input <a href="index.html#FindUser">FindUser</a>, expenseID <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+        Expenses func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>, input <a href="index.html#FindUser">FindUser</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+<span id="ComplexityRoot.User"></span>        User     func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>, input <a href="index.html#FindUser">FindUser</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+        Users    func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+    }
+
+    User struct {
+        CreatedAt func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+        ID        func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+        Name      func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+        UpdatedAt func(childComplexity <a href="http://localhost:6060/pkg/builtin/#int">int</a>) <a href="http://localhost:6060/pkg/builtin/#int">int</a>
+    }
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Config">type <a href="http://localhost:6060/src/github.com/tf63/go_api/api/graph/generated.go?s=709:809#L23">Config</a>
+				<a class="permalink" href="index.html#Config">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type Config struct {
+<span id="Config.Resolvers"></span>    Resolvers  <a href="index.html#ResolverRoot">ResolverRoot</a>
+<span id="Config.Directives"></span>    Directives <a href="index.html#DirectiveRoot">DirectiveRoot</a>
+<span id="Config.Complexity"></span>    Complexity <a href="index.html#ComplexityRoot">ComplexityRoot</a>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="DirectiveRoot">type <a href="http://localhost:6060/src/github.com/tf63/go_api/api/graph/generated.go?s=896:925#L34">DirectiveRoot</a>
+				<a class="permalink" href="index.html#DirectiveRoot">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type DirectiveRoot struct {
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="Expense">type <a href="http://localhost:6060/src/github.com/tf63/go_api/api/graph/types.gen.go?s=99:344#L1">Expense</a>
+				<a class="permalink" href="index.html#Expense">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type Expense struct {
+<span id="Expense.ID"></span>    ID        <a href="http://localhost:6060/pkg/builtin/#string">string</a>    `json:&#34;id&#34;`
+<span id="Expense.Title"></span>    Title     <a href="http://localhost:6060/pkg/builtin/#string">string</a>    `json:&#34;title&#34;`
+<span id="Expense.Price"></span>    Price     <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>      `json:&#34;price&#34;`
+<span id="Expense.UserID"></span>    UserID    <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>      `json:&#34;userId&#34;`
+<span id="Expense.CreatedAt"></span>    CreatedAt <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Time">Time</a> `json:&#34;createdAt&#34;`
+<span id="Expense.UpdatedAt"></span>    UpdatedAt <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Time">Time</a> `json:&#34;updatedAt&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="FindUser">type <a href="http://localhost:6060/src/github.com/tf63/go_api/api/graph/types.gen.go?s=346:399#L8">FindUser</a>
+				<a class="permalink" href="index.html#FindUser">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type FindUser struct {
+<span id="FindUser.UserID"></span>    UserID <a href="http://localhost:6060/pkg/builtin/#uint">uint</a> `json:&#34;userId&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="MutationResolver">type <a href="http://localhost:6060/src/github.com/tf63/go_api/api/graph/generated.go?s=2106:2587#L71">MutationResolver</a>
+				<a class="permalink" href="index.html#MutationResolver">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type MutationResolver interface {
+    CreateExpense(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, input <a href="index.html#NewExpense">NewExpense</a>) (*<a href="index.html#Expense">Expense</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)
+    UpdateExpense(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, input <a href="index.html#NewExpense">NewExpense</a>, expenseID <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>) (*<a href="index.html#Expense">Expense</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)
+    DeleteExpense(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, input <a href="index.html#FindUser">FindUser</a>, expenseID <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>) (*<a href="index.html#Expense">Expense</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)
+    CreateUser(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, input <a href="index.html#NewUser">NewUser</a>) (*<a href="index.html#User">User</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)
+    UpdateUser(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, input <a href="index.html#NewUser">NewUser</a>, userID <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>) (*<a href="index.html#User">User</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)
+    DeleteUser(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, userID <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>) (*<a href="index.html#User">User</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="NewExpense">type <a href="http://localhost:6060/src/github.com/tf63/go_api/api/graph/types.gen.go?s=401:541#L12">NewExpense</a>
+				<a class="permalink" href="index.html#NewExpense">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type NewExpense struct {
+<span id="NewExpense.Title"></span>    Title  *<a href="http://localhost:6060/pkg/builtin/#string">string</a> `json:&#34;title,omitempty&#34;`
+<span id="NewExpense.Price"></span>    Price  *<a href="http://localhost:6060/pkg/builtin/#uint">uint</a>   `json:&#34;price,omitempty&#34;`
+<span id="NewExpense.UserID"></span>    UserID <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>    `json:&#34;userId&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="NewUser">type <a href="http://localhost:6060/src/github.com/tf63/go_api/api/graph/types.gen.go?s=543:604#L18">NewUser</a>
+				<a class="permalink" href="index.html#NewUser">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type NewUser struct {
+<span id="NewUser.Name"></span>    Name *<a href="http://localhost:6060/pkg/builtin/#string">string</a> `json:&#34;name,omitempty&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="QueryResolver">type <a href="http://localhost:6060/src/github.com/tf63/go_api/api/graph/generated.go?s=2588:2870#L79">QueryResolver</a>
+				<a class="permalink" href="index.html#QueryResolver">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type QueryResolver interface {
+    Expense(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, input <a href="index.html#FindUser">FindUser</a>, expenseID <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>) (*<a href="index.html#Expense">Expense</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)
+    Expenses(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, input <a href="index.html#FindUser">FindUser</a>) ([]*<a href="index.html#Expense">Expense</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)
+    User(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, input <a href="index.html#FindUser">FindUser</a>) (*<a href="index.html#User">User</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)
+    Users(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>) ([]*<a href="index.html#User">User</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="ResolverRoot">type <a href="http://localhost:6060/src/github.com/tf63/go_api/api/graph/generated.go?s=811:894#L29">ResolverRoot</a>
+				<a class="permalink" href="index.html#ResolverRoot">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type ResolverRoot interface {
+    Mutation() <a href="index.html#MutationResolver">MutationResolver</a>
+    Query() <a href="index.html#QueryResolver">QueryResolver</a>
+}</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="User">type <a href="http://localhost:6060/src/github.com/tf63/go_api/api/graph/types.gen.go?s=606:774#L22">User</a>
+				<a class="permalink" href="index.html#User">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type User struct {
+<span id="User.ID"></span>    ID        <a href="http://localhost:6060/pkg/builtin/#string">string</a>    `json:&#34;id&#34;`
+<span id="User.Name"></span>    Name      <a href="http://localhost:6060/pkg/builtin/#string">string</a>    `json:&#34;name&#34;`
+<span id="User.CreatedAt"></span>    CreatedAt <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Time">Time</a> `json:&#34;createdAt&#34;`
+<span id="User.UpdatedAt"></span>    UpdatedAt <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Time">Time</a> `json:&#34;updatedAt&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.19.12.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
+<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>

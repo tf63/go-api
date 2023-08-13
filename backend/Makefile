@@ -28,6 +28,6 @@ install-tools:
 .PHONY: build-docs
 
 build-docs:
-	wget -np -k -p -q -r --directory-prefix docs --no-host-directories -E http://localhost:6060/pkg/github.com/catechlounge/tf63_server/ ;
+	wget -np -k -p -q -r --directory-prefix docs --no-host-directories -E http://localhost:6060/pkg/github.com/tf63/go_api ;
 
 

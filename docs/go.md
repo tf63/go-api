@@ -33,3 +33,14 @@
     // Make sure we conform to ServerInterface
     var _ rest.ServerInterface = (*serverHandler)(nil)
 ```
+
+### godoc
+ドキュメントサーバーの起動 (http://localhost:6060に起動する)
+```
+    godoc
+```
+
+ドキュメントのビルド
+```
+    make build-docs
+```

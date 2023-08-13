@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#375EAB">
+
+  <title>entity - Go Documentation Server</title>
+
+<link type="text/css" rel="stylesheet" href="../../../../../../lib/godoc/style.css">
+
+<script>window.initFuncs = [];</script>
+<script src="../../../../../../lib/godoc/jquery.js" defer></script>
+
+
+
+<script>var goVersion = "go1.19.12";</script>
+<script src="../../../../../../lib/godoc/godocs.js" defer></script>
+</head>
+<body>
+
+<div id='lowframe' style="position: fixed; bottom: 0; left: 0; height: 0; width: 100%; border-top: thin solid grey; background-color: white; overflow: auto;">
+...
+</div><!-- #lowframe -->
+
+<div id="topbar" class="wide"><div class="container">
+<div class="top-heading" id="heading-wide"><a href="http://localhost:6060/pkg/">Go Documentation Server</a></div>
+<div class="top-heading" id="heading-narrow"><a href="http://localhost:6060/pkg/">GoDoc</a></div>
+<a href="index.html#" id="menu-button"><span id="menu-button-arrow">&#9661;</span></a>
+<form method="GET" action="http://localhost:6060/search">
+<div id="menu">
+
+<span class="search-box"><input type="search" id="search" name="q" placeholder="Search" aria-label="Search" required><button type="submit"><span><!-- magnifying glass: --><svg width="24" height="24" viewBox="0 0 24 24"><title>submit search</title><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span></button></span>
+</div>
+</form>
+
+</div></div>
+
+
+
+<div id="page" class="wide">
+<div class="container">
+
+
+  <h1>
+    Package entity
+    <span class="text-muted"></span>
+  </h1>
+
+
+
+
+
+
+
+<div id="nav"></div>
+
+
+<!--
+	Copyright 2009 The Go Authors. All rights reserved.
+	Use of this source code is governed by a BSD-style
+	license that can be found in the LICENSE file.
+-->
+<!--
+	Note: Static (i.e., not template-generated) href and id
+	attributes start with "pkg-" to make it impossible for
+	them to conflict with generated attributes (some of which
+	correspond to Go identifiers).
+-->
+
+	<script>
+	document.ANALYSIS_DATA = null;
+	document.CALLGRAPH = null;
+	</script>
+
+	
+		
+		<div id="short-nav">
+			<dl>
+			<dd><code>import "github.com/tf63/go_api/internal/entity"</code></dd>
+			</dl>
+			<dl>
+			<dd><a href="index.html#pkg-overview" class="overviewLink">Overview</a></dd>
+			<dd><a href="index.html#pkg-index" class="indexLink">Index</a></dd>
+			
+			
+			</dl>
+		</div>
+		<!-- The package's Name is printed as title by the top-level template -->
+		<div id="pkg-overview" class="toggleVisible">
+			<div class="collapsed">
+				<h2 class="toggleButton" title="Click to show Overview section">Overview ▹</h2>
+			</div>
+			<div class="expanded">
+				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
+				
+				
+			</div>
+		</div>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
+		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
+			<div id="manual-nav">
+			<dl>
+			
+			
+			
+			
+				
+				<dd><a href="index.html#Expense">type Expense</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#FindUser">type FindUser</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#NewExpense">type NewExpense</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#NewUser">type NewUser</a></dd>
+				
+				
+			
+				
+				<dd><a href="index.html#StatusError">type StatusError</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#StatusError.Error">func (e StatusError) Error() string</a></dd>
+				
+			
+				
+				<dd><a href="index.html#User">type User</a></dd>
+				
+				
+			
+			
+			</dl>
+			</div><!-- #manual-nav -->
+
+		
+
+		
+			<h3>Package files</h3>
+			<p>
+			<span style="font-size:90%">
+			
+				<a href="http://localhost:6060/src/github.com/tf63/go_api/internal/entity/error.go">error.go</a>
+			
+				<a href="http://localhost:6060/src/github.com/tf63/go_api/internal/entity/expense.go">expense.go</a>
+			
+				<a href="http://localhost:6060/src/github.com/tf63/go_api/internal/entity/user.go">user.go</a>
+			
+			</span>
+			</p>
+		
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
+		
+
+		
+		
+		
+		
+			
+			
+			<h2 id="Expense">type <a href="http://localhost:6060/src/github.com/tf63/go_api/internal/entity/expense.go?s=279:425#L10">Expense</a>
+				<a class="permalink" href="index.html#Expense">&#xb6;</a>
+				
+				
+			</h2>
+			<p>ExpenseEntity
+<ul>
+<li>Text: タスクのタイトル
+<li>Price: 価格
+<li>UserID: ユーザーID (FK)
+</ul>
+
+			<pre>type Expense struct {
+    <a href="http://localhost:6060/pkg/gorm.io/gorm/">gorm</a>.<a href="http://localhost:6060/pkg/gorm.io/gorm/#Model">Model</a>
+<span id="Expense.Title"></span>    Title  <a href="http://localhost:6060/pkg/builtin/#string">string</a> `gorm:&#34;index;not null&#34;`
+<span id="Expense.Price"></span>    Price  <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>   `gorm:&#34;default:0&#34;`
+<span id="Expense.UserID"></span>    UserID <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>   `gorm:&#34;foreignkey:ID&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="FindUser">type <a href="http://localhost:6060/src/github.com/tf63/go_api/internal/entity/user.go?s=223:256#L11">FindUser</a>
+				<a class="permalink" href="index.html#FindUser">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type FindUser struct {
+<span id="FindUser.ID"></span>    ID <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="NewExpense">type <a href="http://localhost:6060/src/github.com/tf63/go_api/internal/entity/expense.go?s=427:496#L17">NewExpense</a>
+				<a class="permalink" href="index.html#NewExpense">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type NewExpense struct {
+<span id="NewExpense.Title"></span>    Title  *<a href="http://localhost:6060/pkg/builtin/#string">string</a>
+<span id="NewExpense.Price"></span>    Price  *<a href="http://localhost:6060/pkg/builtin/#uint">uint</a>
+<span id="NewExpense.UserID"></span>    UserID <a href="http://localhost:6060/pkg/builtin/#uint">uint</a>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="NewUser">type <a href="http://localhost:6060/src/github.com/tf63/go_api/internal/entity/user.go?s=258:295#L15">NewUser</a>
+				<a class="permalink" href="index.html#NewUser">&#xb6;</a>
+				
+				
+			</h2>
+			
+			<pre>type NewUser struct {
+<span id="NewUser.Name"></span>    Name *<a href="http://localhost:6060/pkg/builtin/#string">string</a>
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+			
+			
+			<h2 id="StatusError">type <a href="http://localhost:6060/src/github.com/tf63/go_api/internal/entity/error.go?s=43:63#L1">StatusError</a>
+				<a class="permalink" href="index.html#StatusError">&#xb6;</a>
+				
+				
+			</h2>
+			<p>StatusError型の宣言
+
+			<pre>type StatusError <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
+
+			
+				<p>構造体を列挙
+
+				<pre>const (
+    <span id="STATUS_SERVICE_UNAVAILABLE">STATUS_SERVICE_UNAVAILABLE</span> <a href="index.html#StatusError">StatusError</a> = 503 <span class="comment">// 503</span>
+    <span id="STATUS_NOT_FOUND">STATUS_NOT_FOUND</span>           <a href="index.html#StatusError">StatusError</a> = 404 <span class="comment">// 404</span>
+)</pre>
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+				
+				<h3 id="StatusError.Error">func (StatusError) <a href="http://localhost:6060/src/github.com/tf63/go_api/internal/entity/error.go?s=83:118#L1">Error</a>
+					<a class="permalink" href="index.html#StatusError.Error">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (e <a href="index.html#StatusError">StatusError</a>) Error() <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+				<p>Errorを実装
+
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="User">type <a href="http://localhost:6060/src/github.com/tf63/go_api/internal/entity/user.go?s=158:221#L6">User</a>
+				<a class="permalink" href="index.html#User">&#xb6;</a>
+				
+				
+			</h2>
+			<p>UserEntity
+<ul>
+<li>Name: ユーザー名
+</ul>
+
+			<pre>type User struct {
+    <a href="http://localhost:6060/pkg/gorm.io/gorm/">gorm</a>.<a href="http://localhost:6060/pkg/gorm.io/gorm/#Model">Model</a>
+<span id="User.Name"></span>    Name <a href="http://localhost:6060/pkg/builtin/#string">string</a> `gorm:&#34;not null&#34;`
+}
+</pre>
+
+			
+
+			
+
+			
+			
+			
+
+			
+
+			
+		
+	
+
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.19.12.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
+<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
+
+</div><!-- .container -->
+</div><!-- #page -->
+</body>
+</html>
