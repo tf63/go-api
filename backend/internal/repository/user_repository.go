@@ -7,7 +7,6 @@ package repository
 import (
 	"time"
 
-	"github.com/tf63/go_api/api/rest"
 	"github.com/tf63/go_api/internal/entity"
 	"gorm.io/gorm"
 )
@@ -17,10 +16,10 @@ UserRepository Interface
   - Mockするので抽象化
 */
 type UserRepository interface {
-	CreateUser(input rest.NewUser) (userId int, err error)
+	CreateUser(input entity.NewUser) (userId int, err error)
 	ReadUser(userId int) (user entity.User, err error)
 	ReadUsers() (users []entity.User, err error)
-	UpdateUser(input rest.NewUser, userId int) (err error)
+	UpdateUser(input entity.NewUser, userId int) (err error)
 	DeleteUser(userId int) (err error)
 }
 
@@ -46,7 +45,7 @@ Create: Todoを作成する
   - Error:
   - STATUS_SERVICE_UNAVAILABLE (503)
 */
-func (ur *userRepository) CreateUser(input rest.NewUser) (userId int, err error) {
+func (ur *userRepository) CreateUser(input entity.NewUser) (userId int, err error) {
 
 	// inputを取得
 	if input.Name == nil {
@@ -170,7 +169,7 @@ Update: userをuserIdで指定して更新する
   - STATUS_NOT_FOUND (404)
   - STATUS_SERVICE_UNAVAILABLE (503)
 */
-func (ur *userRepository) UpdateUser(input rest.NewUser, userId int) (err error) {
+func (ur *userRepository) UpdateUser(input entity.NewUser, userId int) (err error) {
 
 	// レコードの更新
 	query := `UPDATE users SET `

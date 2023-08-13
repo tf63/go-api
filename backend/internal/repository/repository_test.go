@@ -5,7 +5,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/tf63/go_api/api/rest"
 	"github.com/tf63/go_api/external"
 	"github.com/tf63/go_api/internal/entity"
 )
@@ -39,40 +38,40 @@ func Test(t *testing.T) {
 
 	// 前データ
 	user1Name := "user1"
-	user1 := rest.NewUser{Name: &user1Name}
+	user1 := entity.NewUser{Name: &user1Name}
 	user2Name := "user1"
-	user2 := rest.NewUser{Name: &user2Name}
+	user2 := entity.NewUser{Name: &user2Name}
 	user3Name := "user3"
-	user3 := rest.NewUser{Name: &user3Name}
+	user3 := entity.NewUser{Name: &user3Name}
 
-	findUser1UserId := 1
-	findUser1 := rest.FindUser{UserId: &findUser1UserId}
-	findUser2UserId := 2
-	findUser2 := rest.FindUser{UserId: &findUser2UserId}
-	findUser3UserId := 3
-	findUser3 := rest.FindUser{UserId: &findUser3UserId}
+	findUser1UserId := uint(1)
+	findUser1 := entity.FindUser{ID: findUser1UserId}
+	findUser2UserId := uint(2)
+	findUser2 := entity.FindUser{ID: findUser2UserId}
+	findUser3UserId := uint(3)
+	findUser3 := entity.FindUser{ID: findUser3UserId}
 
 	expense1Title := "user1's expense 1"
-	expense1Price := 100
-	expense1UserId := 1
-	expense1 := rest.NewExpense{Title: &expense1Title, Price: &expense1Price, UserId: &expense1UserId}
+	expense1Price := uint(100)
+	expense1UserId := uint(1)
+	expense1 := entity.NewExpense{Title: &expense1Title, Price: &expense1Price, UserID: expense1UserId}
 	expense2Title := "user1's expense 2"
-	expense2Price := 200
-	expense2UserId := 1
-	expense2 := rest.NewExpense{Title: &expense2Title, Price: &expense2Price, UserId: &expense2UserId}
+	expense2Price := uint(200)
+	expense2UserId := uint(1)
+	expense2 := entity.NewExpense{Title: &expense2Title, Price: &expense2Price, UserID: expense2UserId}
 	expense3Title := "user2's expense 1"
-	expense3Price := 1000
-	expense3UserId := 2
-	expense3 := rest.NewExpense{Title: &expense3Title, Price: &expense3Price, UserId: &expense3UserId}
+	expense3Price := uint(1000)
+	expense3UserId := uint(2)
+	expense3 := entity.NewExpense{Title: &expense3Title, Price: &expense3Price, UserID: expense3UserId}
 
 	updatedExpense1Title := "updated user1's expense 1"
-	updatedExpense1 := rest.NewExpense{Title: &updatedExpense1Title, UserId: &findUser1UserId}
+	updatedExpense1 := entity.NewExpense{Title: &updatedExpense1Title, UserID: findUser1UserId}
 
 	updatedExpense2Title := "updated user2's expense 1"
-	updatedExpense2 := rest.NewExpense{Title: &updatedExpense2Title, UserId: &findUser2UserId}
+	updatedExpense2 := entity.NewExpense{Title: &updatedExpense2Title, UserID: findUser2UserId}
 
 	updatedExpense3Title := "updated user3's expense 1"
-	updatedExpense3 := rest.NewExpense{Title: &updatedExpense3Title, UserId: &findUser3UserId}
+	updatedExpense3 := entity.NewExpense{Title: &updatedExpense3Title, UserID: findUser3UserId}
 
 	// Create: ユーザーを作成
 	if true {
@@ -186,24 +185,12 @@ func Test(t *testing.T) {
 	// Test Service Not Unavailable  (503) ここでは起こせないものがある
 	// ----------------------------------------------------------------
 
-	// CRUD: 適当なエラー
+	// Create: 適当なエラー
 	// user_idがnilになるとエラーを吐く
 	if true {
-		_, err := er.CreateExpense(rest.NewExpense{}) // nil
+		_, err := er.CreateExpense(entity.NewExpense{}) // nil
 		assert.Equal(t, entity.STATUS_SERVICE_UNAVAILABLE, err)
-		_, err = er.ReadExpense(rest.FindUser{}, 1) // nil
-		assert.Equal(t, entity.STATUS_SERVICE_UNAVAILABLE, err)
-		_, err = er.ReadExpenses(rest.FindUser{})
-		assert.Equal(t, entity.STATUS_SERVICE_UNAVAILABLE, err)
-		err = er.UpdateExpense(rest.NewExpense{}, 1)
-		assert.Equal(t, entity.STATUS_SERVICE_UNAVAILABLE, err)
-		err = er.DeleteExpense(rest.FindUser{}, 1)
-		assert.Equal(t, entity.STATUS_SERVICE_UNAVAILABLE, err)
-	}
-
-	// Create: 適当なエラー
-	if true {
-		_, err := ur.CreateUser(rest.NewUser{}) // nil
+		_, err = ur.CreateUser(entity.NewUser{}) // nil
 		assert.Equal(t, entity.STATUS_SERVICE_UNAVAILABLE, err)
 	}
 }

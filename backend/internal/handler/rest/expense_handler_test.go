@@ -56,13 +56,15 @@ func TestPostV1Expenses(t *testing.T) {
 	mer := new(tests.MockExpenseRepository)
 
 	// モックに期待するメソッド呼び出しを設定
-	input := getTestNewExpense()
+	body := getTestNewExpense()
 	expectedExpenseId := 123
+	input, err := NewExpenseDTO(&body)
+	assert.NoError(t, err)
 	mer.On("CreateExpense", input).Return(expectedExpenseId, nil)
 
 	// テストリクエストを作成
-	inputJSON, _ := json.Marshal(input)
-	req, err := http.NewRequest("POST", "/v1/expenses", bytes.NewBuffer(inputJSON))
+	bodyJSON, _ := json.Marshal(body)
+	req, err := http.NewRequest("POST", "/v1/expenses", bytes.NewBuffer(bodyJSON))
 	assert.NoError(t, err)
 
 	// テストレスポンスを作成
@@ -85,13 +87,13 @@ func TestGetV1Expenses(t *testing.T) {
 	mer := new(tests.MockExpenseRepository)
 
 	// モックに期待するメソッド呼び出しを設定
-	input := getTestFindUser()
+	body := getTestFindUser()
 	expectedExpenses := getTestExpensesEntity()
-	mer.On("ReadExpenses", input).Return(expectedExpenses, nil)
+	mer.On("ReadExpenses", FindUserDTO(&body)).Return(expectedExpenses, nil)
 
 	// テストリクエストを作成
-	findUserJSON, _ := json.Marshal(input)
-	req, err := http.NewRequest("GET", "/v1/expenses", bytes.NewBuffer(findUserJSON))
+	bodyJSON, _ := json.Marshal(body)
+	req, err := http.NewRequest("GET", "/v1/expenses", bytes.NewBuffer(bodyJSON))
 	assert.NoError(t, err)
 
 	// テストレスポンスを作成
@@ -121,13 +123,13 @@ func TestDeleteV1ExpensesExpenseId(t *testing.T) {
 	mer := new(tests.MockExpenseRepository)
 
 	// モックに期待するメソッド呼び出しを設定
-	input := getTestFindUser()
+	body := getTestFindUser()
 	expectedExpenseId := 123
-	mer.On("DeleteExpense", input, expectedExpenseId).Return(nil)
+	mer.On("DeleteExpense", FindUserDTO(&body), expectedExpenseId).Return(nil)
 
 	// テストリクエストを作成
-	findUserJSON, _ := json.Marshal(input)
-	req, err := http.NewRequest("DELETE", "/v1/expenses/"+strconv.Itoa(expectedExpenseId), bytes.NewBuffer(findUserJSON))
+	bodyJSON, _ := json.Marshal(body)
+	req, err := http.NewRequest("DELETE", "/v1/expenses/"+strconv.Itoa(expectedExpenseId), bytes.NewBuffer(bodyJSON))
 	assert.NoError(t, err)
 
 	// テストレスポンスを作成
@@ -151,15 +153,15 @@ func TestGetV1ExpensesExpenseId(t *testing.T) {
 	mer := new(tests.MockExpenseRepository)
 
 	// モックに期待するメソッド呼び出しを設定
-	input := getTestFindUser()
+	body := getTestFindUser()
 	expectedExpenseId := 123
 	expectedExpense := getTestExpenseEntity()
 
-	mer.On("ReadExpense", input, expectedExpenseId).Return(expectedExpense, nil)
+	mer.On("ReadExpense", FindUserDTO(&body), expectedExpenseId).Return(expectedExpense, nil)
 
 	// テストリクエストを作成
-	findUserJSON, _ := json.Marshal(input)
-	req, err := http.NewRequest("GET", "/v1/expenses/"+strconv.Itoa(expectedExpenseId), bytes.NewBuffer(findUserJSON))
+	bodyJSON, _ := json.Marshal(body)
+	req, err := http.NewRequest("GET", "/v1/expenses/"+strconv.Itoa(expectedExpenseId), bytes.NewBuffer(bodyJSON))
 	assert.NoError(t, err)
 
 	// テストレスポンスを作成
@@ -191,13 +193,15 @@ func TestPutV1ExpensesExpenseId(t *testing.T) {
 	mer := new(tests.MockExpenseRepository)
 
 	// モックに期待するメソッド呼び出しを設定
-	input := getTestNewExpense()
+	body := getTestNewExpense()
 	expectedExpenseId := 123
+	input, err := NewExpenseDTO(&body)
+	assert.NoError(t, err)
 	mer.On("UpdateExpense", input, expectedExpenseId).Return(nil)
 
 	// テストリクエストを作成
-	inputJSON, _ := json.Marshal(input)
-	req, err := http.NewRequest("PUT", "/v1/expenses/"+strconv.Itoa(expectedExpenseId), bytes.NewBuffer(inputJSON))
+	bodyJSON, _ := json.Marshal(body)
+	req, err := http.NewRequest("PUT", "/v1/expenses/"+strconv.Itoa(expectedExpenseId), bytes.NewBuffer(bodyJSON))
 	assert.NoError(t, err)
 
 	// テストレスポンスを作成

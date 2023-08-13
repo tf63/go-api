@@ -23,3 +23,9 @@ type Expense struct {
 	Price  uint   `gorm:"default:0"`
 	UserID uint   `gorm:"foreignkey:ID"`
 }
+
+type NewExpense struct {
+	Title  *string
+	Price  *uint
+	UserID uint
+}

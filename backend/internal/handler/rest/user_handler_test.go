@@ -42,13 +42,13 @@ func TestPostV1Users(t *testing.T) {
 	mur := new(tests.MockUserRepository)
 
 	// モックに期待するメソッド呼び出しを設定
-	input := getTestNewUser()
+	body := getTestNewUser()
 	expectedUserId := 123
-	mur.On("CreateUser", input).Return(expectedUserId, nil)
+	mur.On("CreateUser", NewUserDTO(&body)).Return(expectedUserId, nil)
 
 	// テストリクエストを作成
-	inputJSON, _ := json.Marshal(input)
-	req, err := http.NewRequest("POST", "/v1/users", bytes.NewBuffer(inputJSON))
+	bodyJSON, _ := json.Marshal(body)
+	req, err := http.NewRequest("POST", "/v1/users", bytes.NewBuffer(bodyJSON))
 	assert.NoError(t, err)
 
 	// テストレスポンスを作成
@@ -170,13 +170,13 @@ func TestPutV1UsersUserId(t *testing.T) {
 	mur := new(tests.MockUserRepository)
 
 	// モックに期待するメソッド呼び出しを設定
-	input := getTestNewUser()
+	body := getTestNewUser()
 	expectedUserId := 1
-	mur.On("UpdateUser", input, expectedUserId).Return(nil)
+	mur.On("UpdateUser", NewUserDTO(&body), expectedUserId).Return(nil)
 
 	// テストリクエストを作成
-	inputJSON, _ := json.Marshal(input)
-	req, err := http.NewRequest("PUT", "/v1/users/"+strconv.Itoa(expectedUserId), bytes.NewBuffer(inputJSON))
+	bodyJSON, _ := json.Marshal(body)
+	req, err := http.NewRequest("PUT", "/v1/users/"+strconv.Itoa(expectedUserId), bytes.NewBuffer(bodyJSON))
 	assert.NoError(t, err)
 
 	// テストレスポンスを作成

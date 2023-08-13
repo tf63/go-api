@@ -17,7 +17,7 @@ func (sh *serverHandler) PostV1Expenses(w http.ResponseWriter, r *http.Request) 
 	var newExpense rest.NewExpense
 	err := json.NewDecoder(r.Body).Decode(&newExpense)
 
-	if err != nil {
+	if err != nil || newExpense.UserId == nil || newExpense.Title == nil || newExpense.Price == nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		log.Printf(`[POST] 503 Error: invalid request body`)
 		return
@@ -25,7 +25,14 @@ func (sh *serverHandler) PostV1Expenses(w http.ResponseWriter, r *http.Request) 
 
 	log.Printf(`[POST] newExpense -> title: ` + *newExpense.Title + `, price: ` + strconv.Itoa(*newExpense.Price) + `, user_id: ` + strconv.Itoa(*newExpense.UserId))
 
-	expense_id, err := sh.er.CreateExpense(newExpense)
+	input, err := NewExpenseDTO(&newExpense)
+	if err != nil {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		log.Printf(`[POST] 503 Error: invalid userId`)
+
+	}
+
+	expense_id, err := sh.er.CreateExpense(input)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		log.Printf(`[POST] 503 Error: database error`)
@@ -49,7 +56,7 @@ func (sh *serverHandler) GetV1Expenses(w http.ResponseWriter, r *http.Request) {
 	var findUser rest.FindUser
 	err := json.NewDecoder(r.Body).Decode(&findUser)
 
-	if err != nil {
+	if err != nil || findUser.UserId == nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		log.Printf(`[GET] 503 Error: invalid request body`)
 		return
@@ -57,7 +64,8 @@ func (sh *serverHandler) GetV1Expenses(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf(`[GET] findUser -> userId: ` + strconv.Itoa(*findUser.UserId))
 
-	expenses, err := sh.er.ReadExpenses(findUser)
+	input := FindUserDTO(&findUser)
+	expenses, err := sh.er.ReadExpenses(input)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		log.Printf(`[GET] 503 Error: database error`)
@@ -86,7 +94,7 @@ func (sh *serverHandler) DeleteV1ExpensesExpenseId(w http.ResponseWriter, r *htt
 	var findUser rest.FindUser
 	err := json.NewDecoder(r.Body).Decode(&findUser)
 
-	if err != nil {
+	if err != nil || findUser.UserId == nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		log.Printf(`[DELETE] 503 Error: invalid request body`)
 		return
@@ -94,7 +102,8 @@ func (sh *serverHandler) DeleteV1ExpensesExpenseId(w http.ResponseWriter, r *htt
 
 	log.Printf(`[DELETE] findUser -> userId: ` + strconv.Itoa(*findUser.UserId))
 
-	err = sh.er.DeleteExpense(findUser, expenseId)
+	input := FindUserDTO(&findUser)
+	err = sh.er.DeleteExpense(input, expenseId)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		log.Printf(`[DELETE] 503 Error: database error`)
@@ -121,7 +130,7 @@ func (sh *serverHandler) GetV1ExpensesExpenseId(w http.ResponseWriter, r *http.R
 	var findUser rest.FindUser
 	err := json.NewDecoder(r.Body).Decode(&findUser)
 
-	if err != nil {
+	if err != nil || findUser.UserId == nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		log.Printf(`[GET] 503 Error: invalid request body`)
 		return
@@ -129,7 +138,8 @@ func (sh *serverHandler) GetV1ExpensesExpenseId(w http.ResponseWriter, r *http.R
 
 	log.Printf(`[GET] findUser -> userId: ` + strconv.Itoa(*findUser.UserId))
 
-	expense, err := sh.er.ReadExpense(findUser, expenseId)
+	input := FindUserDTO(&findUser)
+	expense, err := sh.er.ReadExpense(input, expenseId)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		log.Printf(`[GET] 503 Error: database error`)
@@ -159,7 +169,7 @@ func (sh *serverHandler) PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.R
 	var newExpense rest.NewExpense
 	err := json.NewDecoder(r.Body).Decode(&newExpense)
 
-	if err != nil {
+	if err != nil || newExpense.UserId == nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		log.Printf(`[PUT] 503 Error: invalid request body`)
 		return
@@ -167,7 +177,13 @@ func (sh *serverHandler) PutV1ExpensesExpenseId(w http.ResponseWriter, r *http.R
 
 	log.Printf(`[PUT] newExpense -> title: ` + *newExpense.Title + `, price: ` + strconv.Itoa(*newExpense.Price) + `, user_id: ` + strconv.Itoa(*newExpense.UserId))
 
-	err = sh.er.UpdateExpense(newExpense, expenseId)
+	input, err := NewExpenseDTO(&newExpense)
+	if err != nil {
+		w.WriteHeader(http.StatusServiceUnavailable)
+		log.Printf(`[PUT] 503 Error: invalid request body`)
+	}
+
+	err = sh.er.UpdateExpense(input, expenseId)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		log.Printf(`[PUT] 503 Error: database error`)

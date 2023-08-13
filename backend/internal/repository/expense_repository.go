@@ -12,18 +12,17 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/tf63/go_api/api/rest"
 	"github.com/tf63/go_api/external"
 	"github.com/tf63/go_api/internal/entity"
 	"gorm.io/gorm"
 )
 
 type ExpenseRepository interface {
-	CreateExpense(input rest.NewExpense) (expenseId int, err error)
-	ReadExpense(input rest.FindUser, expenseId int) (expense entity.Expense, err error)
-	ReadExpenses(input rest.FindUser) (expenses []entity.Expense, err error)
-	UpdateExpense(input rest.NewExpense, expenseId int) (err error)
-	DeleteExpense(input rest.FindUser, expenseId int) (err error)
+	CreateExpense(input entity.NewExpense) (expenseId int, err error)
+	ReadExpense(input entity.FindUser, expenseId int) (expense entity.Expense, err error)
+	ReadExpenses(input entity.FindUser) (expenses []entity.Expense, err error)
+	UpdateExpense(input entity.NewExpense, expenseId int) (err error)
+	DeleteExpense(input entity.FindUser, expenseId int) (err error)
 }
 
 type expenseRepository struct {
@@ -34,9 +33,9 @@ func NewExpenseRepository(db gorm.DB) ExpenseRepository {
 	return &expenseRepository{db}
 }
 
-func GetGroupId(expenseId int) string {
+func GetGroupId(userId uint) string {
 	divSize := external.GetDivSize()
-	return strconv.Itoa((expenseId % divSize) + 1)
+	return strconv.Itoa((int(userId) % divSize) + 1)
 }
 
 /*
@@ -50,17 +49,17 @@ Create: Expenseを作成する
   - Error:
   - STATUS_SERVICE_UNAVAILABLE (503)
 */
-func (er *expenseRepository) CreateExpense(input rest.NewExpense) (expenseId int, err error) {
+func (er *expenseRepository) CreateExpense(input entity.NewExpense) (expenseId int, err error) {
 
 	// inputを取得
-	if input.Title == nil || input.Price == nil || input.UserId == nil {
+	if input.Title == nil || input.Price == nil {
 		err = entity.STATUS_SERVICE_UNAVAILABLE
 		return
 	}
 
 	title := *input.Title
 	price := *input.Price
-	userId := *input.UserId
+	userId := input.UserID
 
 	// userIdでレコードを絞る
 	userGroup := GetGroupId(userId)
@@ -94,14 +93,14 @@ func (er *expenseRepository) CreateExpense(input rest.NewExpense) (expenseId int
 	return
 }
 
-func (er *expenseRepository) ReadExpense(input rest.FindUser, expenseId int) (expense entity.Expense, err error) {
+func (er *expenseRepository) ReadExpense(input entity.FindUser, expenseId int) (expense entity.Expense, err error) {
 
-	if input.UserId == nil {
-		err = entity.STATUS_SERVICE_UNAVAILABLE
-		return
-	}
+	// if input.UserId == nil {
+	// 	err = entity.STATUS_SERVICE_UNAVAILABLE
+	// 	return
+	// }
 
-	userId := *input.UserId
+	userId := input.ID
 
 	// userIdでレコードを絞る
 	userGroup := GetGroupId(userId)
@@ -135,17 +134,17 @@ func (er *expenseRepository) ReadExpense(input rest.FindUser, expenseId int) (ex
 	return
 }
 
-func (er *expenseRepository) ReadExpenses(input rest.FindUser) (expenses []entity.Expense, err error) {
+func (er *expenseRepository) ReadExpenses(input entity.FindUser) (expenses []entity.Expense, err error) {
 
-	if input.UserId == nil {
-		err = entity.STATUS_SERVICE_UNAVAILABLE
-		return
-	}
+	// if input.UserId == nil {
+	// 	err = entity.STATUS_SERVICE_UNAVAILABLE
+	// 	return
+	// }
 
 	// レコードをlimit件取得
 	record := []entity.Expense{}
 
-	userId := *input.UserId
+	userId := input.ID
 
 	// userIdでレコードを絞る
 	userGroup := GetGroupId(userId)
@@ -172,14 +171,14 @@ func (er *expenseRepository) ReadExpenses(input rest.FindUser) (expenses []entit
 	return
 }
 
-func (er *expenseRepository) UpdateExpense(input rest.NewExpense, expenseId int) (err error) {
+func (er *expenseRepository) UpdateExpense(input entity.NewExpense, expenseId int) (err error) {
 
-	if input.UserId == nil {
-		err = entity.STATUS_SERVICE_UNAVAILABLE
-		return
-	}
+	// if input.UserId == nil {
+	// 	err = entity.STATUS_SERVICE_UNAVAILABLE
+	// 	return
+	// }
 
-	userId := *input.UserId
+	userId := input.UserID
 
 	// userIdでレコードを絞る
 	userGroup := GetGroupId(userId)
@@ -224,14 +223,14 @@ func (er *expenseRepository) UpdateExpense(input rest.NewExpense, expenseId int)
 	return
 }
 
-func (er *expenseRepository) DeleteExpense(input rest.FindUser, expenseId int) (err error) {
+func (er *expenseRepository) DeleteExpense(input entity.FindUser, expenseId int) (err error) {
 
-	if input.UserId == nil {
-		err = entity.STATUS_SERVICE_UNAVAILABLE
-		return
-	}
+	// if input.UserId == nil {
+	// 	err = entity.STATUS_SERVICE_UNAVAILABLE
+	// 	return
+	// }
 
-	userId := *input.UserId
+	userId := input.ID
 
 	// userIdでレコードを絞る
 	userGroup := GetGroupId(userId)

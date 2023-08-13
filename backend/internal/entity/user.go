@@ -17,3 +17,11 @@ type User struct {
 	gorm.Model
 	Name string `gorm:"not null"`
 }
+
+type FindUser struct {
+	ID uint
+}
+
+type NewUser struct {
+	Name *string
+}

@@ -17,7 +17,7 @@ func (sh *serverHandler) PostV1Users(w http.ResponseWriter, r *http.Request) {
 	var newUser rest.NewUser
 	err := json.NewDecoder(r.Body).Decode(&newUser)
 
-	if err != nil {
+	if err != nil || newUser.Name == nil {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		log.Printf(`[POST] 503 Error: invalid request body`)
 		return
@@ -25,7 +25,8 @@ func (sh *serverHandler) PostV1Users(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf(`[POST] newUser -> name: ` + *newUser.Name)
 
-	user_id, err := sh.ur.CreateUser(newUser)
+	input := NewUserDTO(&newUser)
+	user_id, err := sh.ur.CreateUser(input)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		log.Printf(`[POST] 503 Error: database error`)
@@ -134,7 +135,8 @@ func (sh *serverHandler) PutV1UsersUserId(w http.ResponseWriter, r *http.Request
 
 	log.Printf(`[PUT] newUser -> name: ` + *newUser.Name)
 
-	err = sh.ur.UpdateUser(newUser, userId)
+	input := NewUserDTO(&newUser)
+	err = sh.ur.UpdateUser(input, userId)
 	if err == entity.STATUS_SERVICE_UNAVAILABLE {
 		w.WriteHeader(http.StatusServiceUnavailable)
 		log.Printf(`[PUT] 503 Error: database error`)
