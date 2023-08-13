@@ -13,16 +13,19 @@ import (
 
 // CreateExpense is the resolver for the createExpense field.
 func (r *mutationResolver) CreateExpense(ctx context.Context, input graph.NewExpense) (*graph.Expense, error) {
+
 	inputEntity := NewExpenseDTO(&input)
 
 	expenseId, err := r.Er.CreateExpense(inputEntity)
 	if err != nil {
+		err = ExpenseErrorHandler("Create", err)
 		return nil, err
 	}
 
 	findUser := entity.FindUser{ID: inputEntity.UserID}
 	expenseEntity, err := r.Er.ReadExpense(findUser, expenseId)
 	if err != nil {
+		err = ExpenseErrorHandler("Read", err)
 		return nil, err
 	}
 
@@ -37,12 +40,14 @@ func (r *mutationResolver) UpdateExpense(ctx context.Context, input graph.NewExp
 
 	err := r.Er.UpdateExpense(inputEntity, int(expenseID))
 	if err != nil {
+		err = ExpenseErrorHandler("Update", err)
 		return nil, err
 	}
 
 	findUser := entity.FindUser{ID: inputEntity.UserID}
 	expenseEntity, err := r.Er.ReadExpense(findUser, int(expenseID))
 	if err != nil {
+		err = ExpenseErrorHandler("Read", err)
 		return nil, err
 	}
 
@@ -59,14 +64,15 @@ func (r *mutationResolver) DeleteExpense(ctx context.Context, input graph.FindUs
 	findUser := entity.FindUser{ID: inputEntity.ID}
 	expenseEntity, err := r.Er.ReadExpense(findUser, int(expenseID))
 	if err != nil {
+		err = ExpenseErrorHandler("Read", err)
 		return nil, err
 	}
 
 	err = r.Er.DeleteExpense(inputEntity, int(expenseID))
 	if err != nil {
+		err = ExpenseErrorHandler("Delete", err)
 		return nil, err
 	}
-
 	expense := ExpenseDTO(&expenseEntity)
 
 	return &expense, nil
@@ -78,11 +84,13 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input graph.NewUser) 
 
 	userId, err := r.Ur.CreateUser(inputEntity)
 	if err != nil {
+		err = UserErrorHandler("Create", err)
 		return nil, err
 	}
 
 	userEntity, err := r.Ur.ReadUser(userId)
 	if err != nil {
+		err = UserErrorHandler("Read", err)
 		return nil, err
 	}
 
@@ -97,11 +105,13 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, input graph.NewUser, 
 
 	err := r.Ur.UpdateUser(inputEntity, int(userID))
 	if err != nil {
+		err = UserErrorHandler("Update", err)
 		return nil, err
 	}
 
 	userEntity, err := r.Ur.ReadUser(int(userID))
 	if err != nil {
+		err = UserErrorHandler("Read", err)
 		return nil, err
 	}
 
@@ -115,11 +125,13 @@ func (r *mutationResolver) DeleteUser(ctx context.Context, userID uint) (*graph.
 	// 削除するので先に取得する必要がある
 	userEntity, err := r.Ur.ReadUser(int(userID))
 	if err != nil {
+		err = UserErrorHandler("Read", err)
 		return nil, err
 	}
 
 	err = r.Ur.DeleteUser(int(userID))
 	if err != nil {
+		err = UserErrorHandler("Delete", err)
 		return nil, err
 	}
 
@@ -134,6 +146,7 @@ func (r *queryResolver) Expense(ctx context.Context, input graph.FindUser, expen
 
 	expenseEntity, err := r.Er.ReadExpense(inputEntity, int(expenseID))
 	if err != nil {
+		err = ExpenseErrorHandler("Read", err)
 		return nil, err
 	}
 
@@ -148,6 +161,7 @@ func (r *queryResolver) Expenses(ctx context.Context, input graph.FindUser) ([]*
 
 	expensesEntity, err := r.Er.ReadExpenses(inputEntity)
 	if err != nil {
+		err = ExpenseErrorHandler("Read", err)
 		return nil, err
 	}
 
@@ -165,6 +179,7 @@ func (r *queryResolver) User(ctx context.Context, input graph.FindUser) (*graph.
 
 	userEntity, err := r.Ur.ReadUser(int(input.UserID))
 	if err != nil {
+		err = UserErrorHandler("Read", err)
 		return nil, err
 	}
 
@@ -178,6 +193,7 @@ func (r *queryResolver) Users(ctx context.Context) ([]*graph.User, error) {
 
 	usersEntity, err := r.Ur.ReadUsers()
 	if err != nil {
+		err = UserErrorHandler("Read", err)
 		return nil, err
 	}
 

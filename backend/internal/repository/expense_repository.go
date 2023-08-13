@@ -225,11 +225,6 @@ func (er *expenseRepository) UpdateExpense(input entity.NewExpense, expenseId in
 
 func (er *expenseRepository) DeleteExpense(input entity.FindUser, expenseId int) (err error) {
 
-	// if input.UserId == nil {
-	// 	err = entity.STATUS_SERVICE_UNAVAILABLE
-	// 	return
-	// }
-
 	userId := input.ID
 
 	// userIdでレコードを絞る
