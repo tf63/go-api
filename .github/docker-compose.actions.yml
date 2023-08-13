@@ -1,0 +1,25 @@
+version: '3.3'
+
+services:
+  actions:
+    build:
+      context: ../
+      dockerfile: .github/Dockerfile
+    volumes:
+      - ../backend:/app
+
+    tty: true
+    depends_on:
+      - postgres
+    environment:
+      GITHUB_WORKFLOW: "true"
+    env_file:
+      - ../.env.dev
+
+  postgres:
+    image: postgres:15.2
+    ports:
+      - 5432:5432
+    env_file:
+      - ../.env.dev
+
