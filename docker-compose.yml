@@ -16,7 +16,7 @@ services:
       - postgres
     env_file:
       - .env.dev
-    # command: sh -c "go run cmd/rest/server.go"
+    command: sh -c "go run cmd/rest/server.go"
 
   postgres:
     image: postgres:15.2

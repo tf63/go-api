@@ -7,19 +7,21 @@ title: DB (ver1)
 erDiagram
     users ||--o{ expenses: ""
     users {
-        bigint id PK
-        string name "ユーザー名"
+        bigint id "PK (index)"
+        string name "ユーザー名, not null"
         timestamp created_at
         timestamp updated_at
+        timestamp deleted_at
     }
 
     expenses {
-        bigint id PK
-        bigint user_id FK
-        string title
-        bigint price
+        bigint id "PK (index)"
+        bigint user_id "FK index"
+        string title "not null"
+        bigint price "default:0"
         timestamp created_at
         timestamp updated_at
+        timestamp deleted_at
     }
 ```
 

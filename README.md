@@ -1,8 +1,16 @@
 ## GOでREST, gRPC, GraphQLのAPIを設計する
-
+<!-- ロゴとラベルの色はここから https://simpleicons.org -->
 [![CI](https://github.com/tf63/go_api/actions/workflows/go.yml/badge.svg)](https://github.com/tf63/go_api/actions/workflows/go.yml)
+![Go](https://img.shields.io/badge/Go-1.19-00ADD8?logo=go)
+![Docker](https://img.shields.io/badge/Docker-20.10.23-2496ED?logo=docker)
+![Postgres](https://img.shields.io/badge/Postgres-15.2-4169E1?logo=postgresql)
 
-- userIdにindex貼ってない気がする
+**概要**
+
+家計簿を管理するAPIを作ってみる
+- `Expense`: 支払いを管理する (title, price, user_idなどを持つ)
+- `User`: ユーザーを管理 (nameなどを持つ)
+
 
 **Todo**
 - [x] OpenAPIでスキーマを作成する https://github.com/tf63/go_api/issues/1
@@ -34,3 +42,55 @@
 | Postman | APIの動作確認 |
 | PostgreSQL | DB |
 | pgAdmin | DBの監視 |
+| Docker | 開発環境 |
+| Github Actions | CI |
+
+### 設計など
+
+**API設計**
+
+```mermaid
+---
+title: API (ver1)
+---
+graph TB
+    External --> |:8080|RESTHandler
+    External --> |:9090|GraphQLHandler
+    RESTHandler --> ExpenseRepository
+    RESTHandler --> UserRepository
+    GraphQLHandler --> ExpenseRepository
+    GraphQLHandler --> UserRepository
+    ExpenseRepository --> ExpenseEntity
+    UserRepository --> UserEntity
+    ExpenseRepository --> PostgreSQL
+    UserRepository --> PostgreSQL
+
+```
+
+**テーブル設計**
+
+```mermaid
+---
+title: DB (ver1)
+---
+erDiagram
+    users ||--o{ expenses: ""
+    users {
+        bigint id "PK (index)"
+        string name "ユーザー名, not null"
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+
+    expenses {
+        bigint id "PK (index)"
+        bigint user_id "FK index"
+        string title "not null"
+        bigint price "default:0"
+        timestamp created_at
+        timestamp updated_at
+        timestamp deleted_at
+    }
+```
+

@@ -19,9 +19,9 @@ ExpenseEntity
 */
 type Expense struct {
 	gorm.Model
-	Title  string `gorm:"index;not null"`
+	Title  string `gorm:"not null"`
 	Price  uint   `gorm:"default:0"`
-	UserID uint   `gorm:"foreignkey:ID"`
+	UserID uint   `gorm:"index;foreignkey:ID"`
 }
 
 type NewExpense struct {
