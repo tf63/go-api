@@ -1,5 +1,5 @@
 # 参考 https://qiita.com/takehanKosuke/items/4c5f5a28825eb460ae7f
-name: go-ci
+name: CI
 
 on: [push]
 
@@ -29,7 +29,7 @@ jobs:
           POSTGRES_NAME: ${{ env.POSTGRES_NAME }}
           POSTGRES_USER: ${{ env.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+          
 
     steps:
       - name: set up
@@ -37,32 +37,37 @@ jobs:
         with:
           go-version: ^1.19
         id: go
+
       - name: check out
         uses: actions/checkout@v2
 
       # 処理を高速化するために環境をキャッシュ
-      - name: Cache
+      - name: cache
         uses: actions/cache@v2.1.0
         with:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
-
-  # buildテスト
-  build:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: build
-        run: go build ./...
-
-  # testを通す
-  test:
-    needs: setup
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
+        
       - name: test
         run: go test ./... -v
+
+
+  # buildテスト
+  # build:
+  #   needs: setup
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: build
+  #       run: go build ./...
+
+  # # testを通す
+  # test:
+  #   needs: setup
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: test
+  #       run: go test ./... -v
