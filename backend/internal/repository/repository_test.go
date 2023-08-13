@@ -26,7 +26,7 @@ func TestMain(m *testing.M) {
 テスト前の準備
 */
 func setUp() {
-	db, _ := external.ConnectDatabase(true)
+	db, _ := external.ConnectTestDatabase()
 	er = NewExpenseRepository(*db)
 	ur = NewUserRepository(*db)
 }

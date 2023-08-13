@@ -24,7 +24,7 @@ import (
 
 func main() {
 
-	db, _ := external.ConnectDatabase(false)
+	db, _ := external.ConnectDatabase()
 	er := repository.NewExpenseRepository(*db)
 	ur := repository.NewUserRepository(*db)
 	sh := handler.NewServerHandler(er, ur)

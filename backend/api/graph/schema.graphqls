@@ -1,0 +1,57 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Expense {
+  id: ID!
+  title: String!
+  price: Uint!
+  userId: Uint!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type User {
+  id: ID!
+  name: String!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type Query {
+  expense(input: FindUser!, expenseId: Uint!): Expense!
+  expenses(input: FindUser!): [Expense!]!
+  user(input: FindUser!): User!
+  users: [User!]!
+}
+
+input NewExpense {
+  title: String
+  price: Uint
+  userId: Uint!
+}
+
+input NewUser {
+  name: String
+}
+
+input FindUser {
+  userId: Uint!
+}
+
+type Mutation {
+  createExpense(input: NewExpense!): Expense!
+  updateExpense(input: NewExpense!, expenseId: Uint!): Expense!
+  deleteExpense(input: FindUser!, expenseId: Uint!): Expense!
+  createUser(input: NewUser!): User!
+  updateUser(input: NewUser!, userId: Uint!): User!
+  deleteUser(userId: Uint!): User!
+}
+
+
+# ----------------------------------------------------------------
+# カスタムスカラ
+# ----------------------------------------------------------------
+# gqlgen.ymlファイルをいじる必要がある https://zenn.dev/hsaki/books/golang-graphql/viewer/customscalar
+scalar Time
+scalar Uint
