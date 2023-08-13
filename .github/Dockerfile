@@ -17,7 +17,5 @@ RUN apk update --no-cache \
 COPY backend/go.mod backend/go.sum backend/Makefile ./
 RUN go mod download
 
-# ポートの開放
-EXPOSE 8080
-EXPOSE 9090
-EXPOSE 6060
+
+CMD while true; do sleep 1; done
