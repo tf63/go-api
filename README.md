@@ -1,5 +1,7 @@
 ## GOでREST, gRPC, GraphQLのAPIを設計する
 
+[![go-ci](https://github.com/tf63/go_api/actions/workflows/go.yml/badge.svg)](https://github.com/tf63/go_api/actions/workflows/go.yml)
+
 - userIdにindex貼ってない気がする
 
 **Todo**
