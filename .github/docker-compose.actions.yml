@@ -7,7 +7,7 @@ services:
       dockerfile: .github/Dockerfile
     volumes:
       - ../backend:/app
-      
+    tty: false
     depends_on:
       - postgres
     environment:

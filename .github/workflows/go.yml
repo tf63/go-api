@@ -66,12 +66,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        name: checkout
+
       - name: test with docker compose
         run: | 
           docker-compose -f ./.github/docker-compose.actions.yml up -d --remove-orphans
-          docker-compose -f ./.github/docker-compose.actions.yml exec actions go test -cover -v ./...
+          docker-compose -f ./.github/docker-compose.actions.yml exec -T actions go test -cover -v ./...
 
-      - uses: actions/checkout@v2
       - name: docker compose down
         run: |
           docker-compose -f ./.github/docker-compose.actions.yml down
