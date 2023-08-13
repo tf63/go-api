@@ -16,3 +16,5 @@ RUN apk update --no-cache \
 # モジュールのダウンロード
 COPY backend/go.mod backend/go.sum backend/Makefile ./
 RUN go mod download
+
+CMD while true; do sleep 1; done

@@ -19,6 +19,7 @@ services:
     image: postgres:15.2
     ports:
       - 5432:5432
+    tty: false
     env_file:
       - ../.env.dev
 
