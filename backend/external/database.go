@@ -63,13 +63,24 @@ func ConnectDatabase() (*gorm.DB, error) {
 func ConnectTestDatabase() (*gorm.DB, error) {
 
 	// DBへの接続に必要な情報
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Tokyo",
-		os.Getenv("POSTGRES_HOST_TEST"),
-		os.Getenv("POSTGRES_USER"),
-		os.Getenv("POSTGRES_PASSWORD"),
-		os.Getenv("POSTGRES_NAME"),
-		os.Getenv("POSTGRES_PORT"),
-	)
+	dsn := ""
+	if os.Getenv("GITHUB_WORKFLOW") == "" {
+		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Tokyo",
+			os.Getenv("POSTGRES_HOST_TEST"),
+			os.Getenv("POSTGRES_USER"),
+			os.Getenv("POSTGRES_PASSWORD"),
+			os.Getenv("POSTGRES_NAME"),
+			os.Getenv("POSTGRES_PORT"),
+		)
+	} else {
+		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Tokyo",
+			"localhost",
+			os.Getenv("POSTGRES_USER"),
+			os.Getenv("POSTGRES_PASSWORD"),
+			os.Getenv("POSTGRES_NAME"),
+			os.Getenv("POSTGRES_PORT"),
+		)
+	}
 
 	// DBへ接続
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})

@@ -24,7 +24,11 @@ import (
 
 func main() {
 
-	db, _ := external.ConnectDatabase()
+	db, err := external.ConnectDatabase()
+	if err != nil {
+		log.Fatal("Failed to Connect Database")
+	}
+
 	er := repository.NewExpenseRepository(*db)
 	ur := repository.NewUserRepository(*db)
 	sh := handler.NewServerHandler(er, ur)

@@ -1,5 +1,7 @@
 ## GOでREST, gRPC, GraphQLのAPIを設計する
 
+- userIdにindex貼ってない気がする
+
 **Todo**
 - [x] OpenAPIでスキーマを作成する https://github.com/tf63/go_api/issues/1
 - [x] Repositoryを作成する https://github.com/tf63/go_api/issues/4 https://github.com/tf63/go_api/issues/5
