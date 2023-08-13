@@ -8,13 +8,13 @@ services:
     volumes:
       - ../backend:/app
 
-    tty: true
     depends_on:
       - postgres
     environment:
       GITHUB_WORKFLOW: "true"
     env_file:
       - ../.env.dev
+    command: sh -c "while true; do sleep 1; done"
 
   postgres:
     image: postgres:15.2
