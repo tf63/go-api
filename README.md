@@ -8,8 +8,8 @@
 **概要**
 
 家計簿を管理するAPIを作ってみる
-- `Expense`: 支払いを管理する (title, price, user_idなどを持つ)
-- `User`: ユーザーを管理 (nameなどを持つ)
+- `Expense` : 支払いを管理する (title, price, user_idなどを持つ)
+- `User` : ユーザーを管理 (nameなどを持つ)
 
 
 **Todo**
@@ -53,6 +53,7 @@
 ---
 title: API (ver1)
 ---
+%%{init:{'theme':'forest'}}%%
 graph TB
     External --> |:8080|RESTHandler
     External --> |:9090|GraphQLHandler
@@ -73,6 +74,7 @@ graph TB
 ---
 title: DB (ver1)
 ---
+%%{init:{'theme':'forest'}}%%
 erDiagram
     users ||--o{ expenses: ""
     users {

@@ -4,6 +4,7 @@
 ---
 title: DB (ver1)
 ---
+%%{init:{'theme':'forest'}}%%
 erDiagram
     users ||--o{ expenses: ""
     users {
@@ -30,6 +31,7 @@ erDiagram
 ---
 title: DB (ver2)
 ---
+%%{init:{'theme':'forest'}}%%
 erDiagram
     users ||--o{ expenses: ""
     expenses ||--o{ tags_map: ""
